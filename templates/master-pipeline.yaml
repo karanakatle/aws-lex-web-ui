@@ -153,6 +153,7 @@ Parameters:
     # The content of this bucket is maintained outside of this template
     # by using the Makefile under the build directory of this project.
     # See the README.md file for instructions on how to use your own bucket.
+
     BootstrapBucket:
         Type: String
         Default: aws-bigdata-blog
@@ -179,7 +180,15 @@ Parameters:
             This optional parameter defines the message to be sent by the user upon pressing
             a feedback button signaling a positive feedback.
             If left empty feedback buttons will be disabled on the UI.
-
+    CompileFromSource:
+        Type: String
+        Default: 'true'
+        AllowedValues:
+          - true
+          - false
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.
     WebAppConfHelp:
         Type: String
         Default: Help
@@ -199,6 +208,7 @@ Metadata:
                   - CleanupBuckets
                   - BootstrapBucket
                   - BootstrapPrefix
+                  - CompileFromSource
             - Label:
                 default: Lex Bot Configuration Parameters
               Parameters:
@@ -220,14 +230,30 @@ Metadata:
                   - WebAppConfHelp
 
 Conditions:
+    ShouldUseBootstrapBucket: !Equals 
+    - !Ref CompileFromSource
+    - true
+    # DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
+    #ShouldUseBootstrapBucket: !Equals ['false','true']
+    DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
     NeedsBot: !Equals [!Ref BotName, '']
+    NeedsBotWithBootstrapBucket: !And [Condition: ShouldUseBootstrapBucket, Condition: NeedsBot]
+
+
+    NeedsBotWithoutBootstrapBucket: !And [Condition: NeedsBot, !Not [Condition: ShouldUseBootstrapBucket ]]
+
     NeedsCognito: !Equals [!Ref CognitoIdentityPoolId, '']
+    NeedsCognitoWithBootstrapBucket: !And [Condition: ShouldUseBootstrapBucket, Condition: NeedsCognito]
+    NeedsCognitoWithoutBootstrapBucket: !And [Condition: NeedsCognito, !Not [Condition: ShouldUseBootstrapBucket ]]
+
     NeedsParentOrigin: !Equals [!Ref WebAppParentOrigin, '']
+    NeedsParentOriginWithBootstrapBucket: !And [Condition: ShouldUseBootstrapBucket, Condition: NeedsParentOrigin]
+    NeedsBotWithoutBootstrapBucket: !And [Condition: NeedsParentOrigin, !Not [Condition: ShouldUseBootstrapBucket ]]
 
 Resources:
     Bot:
         Type: AWS::CloudFormation::Stack
-        Condition: NeedsBot
+        Condition: NeedsBotWithBootstrapBucket
         Properties:
             TimeoutInMinutes: 15
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/lexbot.yaml"
@@ -236,10 +262,24 @@ Resources:
                 ShouldDeleteBot: !Ref ShouldDeleteBot
                 CustomResourceCodeBucket: !Ref BootstrapBucket
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
+#                CompileFromSource: !Ref CompileFromSource # This won't work until code is updated
+    Bot1:
+        Type: AWS::CloudFormation::Stack
+        Condition: NeedsBotWithoutBootstrapBucket
+        Properties:
+            TimeoutInMinutes: 15
+            TemplateURL: "./package/lexbot.yaml"
+            Parameters:
+                NamePrefix: !Ref BotNamePrefix
+                ShouldDeleteBot: !Ref ShouldDeleteBot
+                CustomResourceCodeBucket: !Ref BootstrapBucket
+                CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
+                CompileFromSource: !Ref CompileFromSource
+
 
     CognitoIdentityPool:
         Type: AWS::CloudFormation::Stack
-        Condition: NeedsCognito
+        Condition: NeedsCognitoWithBootstrapBucket
         Properties:
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/cognito.yaml"
             Parameters:
@@ -250,11 +290,26 @@ Resources:
                       - !GetAtt Bot.Outputs.BotName
                       - !Ref BotName
 
+    CognitoIdentityPool1:
+        Type: AWS::CloudFormation::Stack
+        Condition: NeedsCognitoWithoutBootstrapBucket
+        Properties:
+            TemplateURL: "./package/cognito.yaml"
+            Parameters:
+                CognitoIdentityPoolName: !Ref CognitoIdentityPoolName
+                LexBotName:
+                    !If
+                      - NeedsBot
+                      - !GetAtt Bot1.Outputs.BotName
+                      - !Ref BotName
+
+
     ##########################################################################
     # deployment using a pipeline
     ##########################################################################
     CodeCommitRepo:
         Type: AWS::CloudFormation::Stack
+        Condition: ShouldUseBootstrapBucket
         Properties:
             TimeoutInMinutes: 15
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/coderepo.yaml"
@@ -274,9 +329,36 @@ Resources:
                 SourceBucket: !Ref BootstrapBucket
                 SourceObject: !Sub "${BootstrapPrefix}/src.zip"
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
+                UseBootstrapBucket: !Ref CompileFromSource
+
+
+    CodeCommitRepo1:
+        Type: AWS::CloudFormation::Stack
+        Condition: DontUseBootstrapBucket
+        Properties:
+            TimeoutInMinutes: 15
+            TemplateURL: "./package/coderepo.yaml"
+            Parameters:
+                BotName:
+                    !If
+                      - NeedsBot
+                      - !GetAtt Bot1.Outputs.BotName
+                      - !Ref BotName
+                CodeBuildName: !Sub "${CodeCommitRepoName}-init"
+                CodeCommitRepoName: !Ref CodeCommitRepoName
+                CognitoIdentityPoolId:
+                    !If
+                      - NeedsCognito
+                      - !GetAtt CognitoIdentityPool1.Outputs.CognitoIdentityPoolId
+                      - !Ref CognitoIdentityPoolId
+                SourceBucket: !Ref BootstrapBucket
+                SourceObject: !Sub "${BootstrapPrefix}/src.zip"
+                CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
+                UseBootstrapBucket: !Ref CompileFromSource
 
     Pipeline:
         Type: AWS::CloudFormation::Stack
+        Condition: ShouldUseBootstrapBucket
         Properties:
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/pipeline.yaml"
             Parameters:
@@ -302,10 +384,45 @@ Resources:
                 WebAppConfNegativeFeedback: !Ref WebAppConfNegativeFeedback
                 WebAppConfPositiveFeedback: !Ref WebAppConfPositiveFeedback
                 WebAppConfHelp: !Ref WebAppConfHelp
+                UseBootstrapBucket: !Ref CompileFromSource
+
+
+    Pipeline1:
+        Type: AWS::CloudFormation::Stack
+        Condition: DontUseBootstrapBucket
+        Properties:
+            TemplateURL: "./package/pipeline.yaml"
+            Parameters:
+                BotName:
+                    !If
+                      - NeedsBot
+                      - !GetAtt Bot1.Outputs.BotName
+                      - !Ref BotName
+                CodePipelineName: !Ref CodePipelineName
+                CodeCommitRepoName: !GetAtt CodeCommitRepo1.Outputs.CodeCommitRepoName
+                CodeBuildName: !Ref CodeBuildName
+                CognitoIdentityPoolId:
+                    !If
+                      - NeedsCognito
+                      - !GetAtt CognitoIdentityPool1.Outputs.CognitoIdentityPoolId
+                      - !Ref CognitoIdentityPoolId
+                ParentOrigin: !Ref WebAppParentOrigin
+                CustomResourceCodeBucket: !Ref BootstrapBucket
+                CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
+                CleanupBuckets: !Ref CleanupBuckets
+                CognitoAppUserPoolClientId: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolClientId
+                CognitoUserPoolId: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolId
+                WebAppConfNegativeFeedback: !Ref WebAppConfNegativeFeedback
+                WebAppConfPositiveFeedback: !Ref WebAppConfPositiveFeedback
+                WebAppConfHelp: !Ref WebAppConfHelp
+                UseBootstrapBucket: !Ref CompileFromSource
+
+
+
 
     CognitoIdentityPoolConfig:
         Type: AWS::CloudFormation::Stack
-        Condition: NeedsCognito
+        Condition: NeedsCognitoWithBootstrapBucket
         Properties:
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/cognitouserpoolconfig.yaml"
             Parameters:
@@ -314,6 +431,21 @@ Resources:
                 CodeBuildProjectName: !Ref CodeBuildName
                 CognitoUserPool: !GetAtt CognitoIdentityPool.Outputs.CognitoUserPoolId
                 CognitoUserPoolClient: !GetAtt CognitoIdentityPool.Outputs.CognitoUserPoolClientId
+                UseBootstrapBucket: !Ref CompileFromSource
+
+
+    CognitoIdentityPoolConfig1:
+        Type: AWS::CloudFormation::Stack
+        Condition: NeedsCognitoWithoutBootstrapBucket
+        Properties:
+            TemplateURL: "./package/cognitouserpoolconfig.yaml"
+            Parameters:
+                WebAppUrl: !If [NeedsParentOrigin, !GetAtt Pipeline1.Outputs.WebAppBase, !Ref WebAppParentOrigin]
+                WebAppPath: !Ref WebAppPath
+                CodeBuildProjectName: !Ref CodeBuildName
+                CognitoUserPool: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolId
+                CognitoUserPoolClient: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolClientId
+                UseBootstrapBucket: !Ref CompileFromSource
 
 
 Outputs:
@@ -321,44 +453,62 @@ Outputs:
         Condition: NeedsBot
         Description: >
             Name of the Lex bot created by the stack
-        Value: !GetAtt Bot.Outputs.BotName
+        Value: !If [ShouldUseBootstrapBucket, !GetAtt Bot.Outputs.BotName, !GetAtt Bot1.Outputs.BotName]
 
     CodeCommitRepoUrl:
         Description: CodeCommit repository clone URL
-        Value: !GetAtt CodeCommitRepo.Outputs.CodeCommitRepoUrl
+        Value: !If [ShouldUseBootstrapBucket, !GetAtt CodeCommitRepo.Outputs.CodeCommitRepoUrl,!GetAtt CodeCommitRepo1.Outputs.CodeCommitRepoUrl]
 
     PipelineUrl:
         Description: >
             Monitor the pipeline URL to see when the application has been fully
             built and deployed.
-        Value: !Sub "https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline.Outputs.PipelineName}"
+        Value: !If 
+            - ShouldUseBootstrapBucket
+            - !Sub "https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline.Outputs.PipelineName}"
+            - !Sub "https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline1.Outputs.PipelineName}"
 
     WebAppUrl:
         Description: >
             URL of the stand-alone sample web application.
             This page will be available after the pipeline/deployment completes.
-        Value: !GetAtt Pipeline.Outputs.WebAppUrl
+        Value: !If 
+            - ShouldUseBootstrapBucket
+            - !GetAtt Pipeline.Outputs.WebAppUrl
+            - !GetAtt Pipeline1.Outputs.WebAppUrl
 
     ParentPageUrl:
         Condition: NeedsParentOrigin
         Description: >
             URL of the iframe based sample web application
             This page will be available after the pipeline/deployment completes.
-        Value: !GetAtt Pipeline.Outputs.ParentPageUrl
+        Value: !If
+        - ShouldUseBootstrapBucket
+        - !GetAtt Pipeline.Outputs.ParentPageUrl
+        - !GetAtt Pipeline1.Outputs.ParentPageUrl
 
     LoaderScriptUrl:
         Description: >
             URL of the loader script
             This script will be available after the pipeline/deployment completes.
-        Value: !GetAtt Pipeline.Outputs.LoaderScriptUrl
+        Value: !If
+        - ShouldUseBootstrapBucket
+        - !GetAtt Pipeline.Outputs.LoaderScriptUrl
+        - !GetAtt Pipeline1.Outputs.LoaderScriptUrl
 
     SnippetUrl:
         Description: >
             URL of a page showing the snippet to load the chatbot UI as
             an iframe
-        Value: !GetAtt Pipeline.Outputs.SnippetUrl
+        Value: !If
+        - ShouldUseBootstrapBucket
+        - !GetAtt Pipeline.Outputs.SnippetUrl
+        - !GetAtt Pipeline1.Outputs.SnippetUrl
 
     CognitoIdentityPoolId:
         Condition: NeedsCognito
         Description: Cognito Identity Pool Id
-        Value: !GetAtt CognitoIdentityPool.Outputs.CognitoIdentityPoolId
+        Value:  !If 
+        - ShouldUseBootstrapBucket
+        - !GetAtt CognitoIdentityPool.Outputs.CognitoIdentityPoolId
+        - !GetAtt CognitoIdentityPool1.Outputs.CognitoIdentityPoolId

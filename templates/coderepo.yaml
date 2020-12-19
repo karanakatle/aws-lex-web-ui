@@ -13,6 +13,13 @@ Parameters:
         MaxLength: 100
         AllowedPattern: '^[\w\.-]+$'
         ConstraintDescription: Alphanumeric, dot and dash.
+        
+    UseBootstrapBucket:
+        Type: String
+        Default: true
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.
 
     CodeBuildName:
         Type: String
@@ -60,6 +67,10 @@ Parameters:
         AllowedPattern: '^[a-zA-Z]+((_[a-zA-Z]+)*|([a-zA-Z]+_)*|_)'
         ConstraintDescription: >
             Must conform with the permitted Lex Bot name pattern.
+
+Conditions:
+    ShouldUseBootstrapBucket: !Equals [!Ref UseBootstrapBucket,'true']
+    DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
 
 Resources:
     CodeCommitRepo:
@@ -120,16 +131,33 @@ Resources:
     CodeBuildStarter:
         Type: Custom::CodeBuildStarter
         Properties:
-            ServiceToken: !GetAtt CodeBuildStarterLambda.Arn
+            ServiceToken: !If
+            - ShouldUseBootstrapBucket
+            - !GetAtt CodeBuildStarterLambda.Arn
+            - !GetAtt CodeBuildStarterLambda1.Arn
+
             ProjectName: !Ref CodeBuild
 
     # Lambda function for custom resource
     CodeBuildStarterLambda:
         Type: AWS::Lambda::Function
+        Condition: ShouldUseBootstrapBucket
         Properties:
             Code:
                 S3Bucket: !Ref SourceBucket
                 S3Key: !Ref CustomResourceCodeObject
+            Handler: codebuild-start.handler
+            Role: !GetAtt CodeBuildStarterLambdaRole.Arn
+            Runtime: python3.7
+            Timeout: 120
+            TracingConfig:
+                Mode: Active
+
+    CodeBuildStarterLambda1:
+        Type: AWS::Lambda::Function
+        Condition: DontUseBootstrapBucket
+        Properties:
+            Code: ./custom-resources
             Handler: codebuild-start.handler
             Role: !GetAtt CodeBuildStarterLambdaRole.Arn
             Runtime: python3.7

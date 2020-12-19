@@ -25,6 +25,13 @@ Parameters:
         Type: String
         Description: Cognito UserPool Client Id
 
+    UseBootstrapBucket:
+        Type: String
+        Default: true
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.
+
 Resources:
 
     CognitoUserPoolDomain:

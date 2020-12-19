@@ -11,7 +11,13 @@ Parameters:
         MaxLength: 128
         AllowedPattern: '^[\w ]+$'
         ConstraintDescription: Alphanumeric and spaces.
-
+        
+    UseBootstrapBucket:
+        Type: String
+        Default: true
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.
     LexBotName:
         Type: String
         Description: Lex bot name used to build IAM policy

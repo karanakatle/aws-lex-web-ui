@@ -14,7 +14,13 @@ Parameters:
         ConstraintDescription: >
             Should start with Alphanumeric. May contain alphanumeric, underscore
             and dash.
-
+    UseBootstrapBucket:
+        Type: String
+        Default: true
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.
+            
     SourceBucket:
         Description: S3 bucket where the source is located
         Type: String
@@ -224,8 +230,13 @@ Parameters:
 
 Conditions:
     NeedsParentOrigin: !Equals [!Ref ParentOrigin, '']
-    ShouldCleanupBuckets: !Equals [!Ref CleanupBuckets, true]
 
+    ShouldCleanupBuckets: !Equals [!Ref CleanupBuckets, true]
+    ShouldCleanupBucketsWithBootstrapBucket: !And [Condition: UseBootstrapBucket, Condition: ShouldCleanupBuckets]
+    ShouldCleanupBucketstWithoutBootstrapBucket: !And [Condition: ShouldCleanupBuckets, !Not [Condition: UseBootstrapBucket ]]
+
+    ShouldUseBootstrapBucket: !Equals [!Ref UseBootstrapBucket,'true']
+    DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
 Resources:
     # Bucket where S3 access logs are stored
     S3ServerAccessLogs:
@@ -468,6 +479,7 @@ Resources:
     # Lambda function for custom resource
     CodeBuildStarterLambda:
         Type: AWS::Lambda::Function
+        Condition: UseBootstrapBucket
         Properties:
             Code:
                 S3Bucket: !Ref SourceBucket
@@ -478,6 +490,19 @@ Resources:
             Timeout: 120
             TracingConfig:
                 Mode: Active
+
+    CodeBuildStarterLambda1:
+        Type: AWS::Lambda::Function
+        Condition: DontUseBootstrapBucket
+        Properties:
+            Code: ./custom-resources
+            Handler: codebuild-start.handler
+            Role: !GetAtt CodeBuildStarterLambdaRole.Arn
+            Runtime: python3.7
+            Timeout: 120
+            TracingConfig:
+                Mode: Active
+
 
     CodeBuildRole:
         Type: AWS::IAM::Role
@@ -600,7 +625,7 @@ Resources:
   # Lambda function for custom resource
     S3CleanupLambda:
         Type: AWS::Lambda::Function
-        Condition: ShouldCleanupBuckets
+        Condition: ShouldCleanupBucketsWithBootstrapBucket
         Properties:
             Code:
                 S3Bucket: !Ref SourceBucket
@@ -611,6 +636,20 @@ Resources:
             Timeout: 120
             TracingConfig:
                 Mode: Active
+
+    S3CleanupLambda1:
+        Type: AWS::Lambda::Function
+        Condition: ShouldCleanupBucketsWithoutBootstrapBucket
+        Properties:
+            Code: "./custom-resources"
+            Handler: s3-cleanup.handler
+            Role: !GetAtt S3CleanupLambdaRole.Arn
+            Runtime: python3.7
+            Timeout: 120
+            TracingConfig:
+                Mode: Active
+
+
 
     S3CleanupLambdaRole:
         Type: AWS::IAM::Role

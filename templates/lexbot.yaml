@@ -4,6 +4,13 @@ Description: >
     It uses a custom resource to read the bot definition from a file.
 
 Parameters:
+
+    UseBootstrapBucket:
+        Type: String
+        Default: true
+        Description: >
+            set to 'true' to use local files instead of BootstrapBucket.  
+            'cloudformation package must be run first.  
     NamePrefix:
         Type: String
         Description: Prefix to add to Lex resource names
@@ -35,23 +42,43 @@ Parameters:
             If set to True, the Lex bot and associated resources will
             be deleted when the stack is deleted. Otherwise, the bot
             will be preserved.
-
+Condition:
+    ShouldUseBootstrapBucket: !Equals 
+    - !Ref UseBootstrapBucket
+    - true
+    DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
 Resources:
     # custom resource to start code build project
     LexBot:
         Type: Custom::LexBot
         Properties:
-            ServiceToken: !GetAtt LexBotLambda.Arn
+            ServiceToken: !If
+            - ShouldUseBootstrapBucket
+            - !GetAtt LexBotLambda.Arn
+            - !GetAtt LexBotLambda1.Arn
             NamePrefix: !Ref NamePrefix
             ShouldDelete: !Ref ShouldDeleteBot
 
     # Lambda function for custom resource
     LexBotLambda:
         Type: AWS::Lambda::Function
+        Condition: ShouldUseBootstrapBucket
         Properties:
             Code:
                 S3Bucket: !Ref CustomResourceCodeBucket
                 S3Key: !Ref CustomResourceCodeObject
+            Handler: lex-manager.handler
+            Role: !GetAtt LexBotLambdaRole.Arn
+            Runtime: python3.7
+            Timeout: 300
+            TracingConfig:
+                Mode: Active
+
+    LexBotLambda1:
+        Type: AWS::Lambda::Function
+        Condition: DontUseBootstrapBucket
+        Properties:
+            Code: ./custom-resources
             Handler: lex-manager.handler
             Role: !GetAtt LexBotLambdaRole.Arn
             Runtime: python3.7
