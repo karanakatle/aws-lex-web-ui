@@ -42,7 +42,7 @@ Parameters:
             If set to True, the Lex bot and associated resources will
             be deleted when the stack is deleted. Otherwise, the bot
             will be preserved.
-Condition:
+Conditions:
     ShouldUseBootstrapBucket: !Equals 
     - !Ref UseBootstrapBucket
     - true

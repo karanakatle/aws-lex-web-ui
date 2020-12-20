@@ -5,3 +5,14 @@ node_modules/
 py_modules/
 */*/py_modules/
 templates/package/
+templates/custom-resources/certifi/
+templates/custom-resources/certifi-2020.12.5.dist-info/
+templates/custom-resources/chardet/
+templates/custom-resources/chardet-4.0.0.dist-info/
+templates/custom-resources/idna/
+templates/custom-resources/requests/
+templates/custom-resources/bin/
+templates/custom-resources/requests-2.25.1.dist-info
+templates/custom-resources/urllib3/
+templates/custom-resources/idna-2.10.dist-info/
+templates/custom-resources/urllib3-1.26.2.dist-info/

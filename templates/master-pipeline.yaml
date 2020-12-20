@@ -180,7 +180,7 @@ Parameters:
             This optional parameter defines the message to be sent by the user upon pressing
             a feedback button signaling a positive feedback.
             If left empty feedback buttons will be disabled on the UI.
-    CompileFromSource:
+    GetCodeFromS3:
         Type: String
         Default: 'true'
         AllowedValues:
@@ -208,7 +208,7 @@ Metadata:
                   - CleanupBuckets
                   - BootstrapBucket
                   - BootstrapPrefix
-                  - CompileFromSource
+                  - GetCodeFromS3
             - Label:
                 default: Lex Bot Configuration Parameters
               Parameters:
@@ -231,7 +231,7 @@ Metadata:
 
 Conditions:
     ShouldUseBootstrapBucket: !Equals 
-    - !Ref CompileFromSource
+    - !Ref GetCodeFromS3
     - true
     # DontUseBootstrapBucket: !Not [Condition: ShouldUseBootstrapBucket]
     #ShouldUseBootstrapBucket: !Equals ['false','true']
@@ -262,7 +262,7 @@ Resources:
                 ShouldDeleteBot: !Ref ShouldDeleteBot
                 CustomResourceCodeBucket: !Ref BootstrapBucket
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
-#                CompileFromSource: !Ref CompileFromSource # This won't work until code is updated
+#               UseBootstrapBucket: !Ref GetCodeFromS3 # This won't work until code is updated
     Bot1:
         Type: AWS::CloudFormation::Stack
         Condition: NeedsBotWithoutBootstrapBucket
@@ -274,7 +274,7 @@ Resources:
                 ShouldDeleteBot: !Ref ShouldDeleteBot
                 CustomResourceCodeBucket: !Ref BootstrapBucket
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
-                CompileFromSource: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
 
     CognitoIdentityPool:
@@ -329,7 +329,7 @@ Resources:
                 SourceBucket: !Ref BootstrapBucket
                 SourceObject: !Sub "${BootstrapPrefix}/src.zip"
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
-                UseBootstrapBucket: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
 
     CodeCommitRepo1:
@@ -354,7 +354,7 @@ Resources:
                 SourceBucket: !Ref BootstrapBucket
                 SourceObject: !Sub "${BootstrapPrefix}/src.zip"
                 CustomResourceCodeObject: !Sub "${BootstrapPrefix}/custom-resources.zip"
-                UseBootstrapBucket: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
     Pipeline:
         Type: AWS::CloudFormation::Stack
@@ -384,7 +384,7 @@ Resources:
                 WebAppConfNegativeFeedback: !Ref WebAppConfNegativeFeedback
                 WebAppConfPositiveFeedback: !Ref WebAppConfPositiveFeedback
                 WebAppConfHelp: !Ref WebAppConfHelp
-                UseBootstrapBucket: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
 
     Pipeline1:
@@ -415,7 +415,7 @@ Resources:
                 WebAppConfNegativeFeedback: !Ref WebAppConfNegativeFeedback
                 WebAppConfPositiveFeedback: !Ref WebAppConfPositiveFeedback
                 WebAppConfHelp: !Ref WebAppConfHelp
-                UseBootstrapBucket: !Ref CompileFromSource
+                GetCodeFromS3: !Ref GetCodeFromS3
 
 
 
@@ -431,7 +431,7 @@ Resources:
                 CodeBuildProjectName: !Ref CodeBuildName
                 CognitoUserPool: !GetAtt CognitoIdentityPool.Outputs.CognitoUserPoolId
                 CognitoUserPoolClient: !GetAtt CognitoIdentityPool.Outputs.CognitoUserPoolClientId
-                UseBootstrapBucket: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
 
     CognitoIdentityPoolConfig1:
@@ -445,7 +445,7 @@ Resources:
                 CodeBuildProjectName: !Ref CodeBuildName
                 CognitoUserPool: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolId
                 CognitoUserPoolClient: !GetAtt CognitoIdentityPool1.Outputs.CognitoUserPoolClientId
-                UseBootstrapBucket: !Ref CompileFromSource
+                UseBootstrapBucket: !Ref GetCodeFromS3
 
 
 Outputs:
