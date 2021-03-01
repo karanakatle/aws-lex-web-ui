@@ -96,11 +96,9 @@ Parameters:
         Type: String
         Description: >
             Browser origin (e.g. http://mysite.example.com:8080)
-            of an existing site that is allowed to send/receive data
-            and events from the web ui in an iframe setup. This is an
-            optional parameter. If left empty, an S3 bucket will be
-            created to host a sample parent site embedding the webapp
-            as an iframe.
+            of an existing site where you want to place the chat bot UI. 
+            This is an optional parameter. If left empty, the sample parent page
+            will be hosted in the same S3 bucket as the iframe
         Default: ''
         AllowedPattern: '(^$|^https?://[\w\.-]+(:\d+)?$)'
         ConstraintDescription: Empty or valid browser origin
@@ -109,11 +107,9 @@ Parameters:
         Type: String
         Default: '/parent.html'
         Description: >
-            Path to the page hosting the sample WebApp. This parameter defaults
-            to parent.html which is used by the sample app created when hosting the
-            bot in a separate iframe. This path should be updated to reflect the
-            path to the default (home) page used by the WebAppParentOrigin.
-            This may be /index.html rather than the default.
+            Path to the page (or pages) under WebAppParentOrigin used to host 
+            the chatbot UI. Multiple paths can be specified as a comma separated 
+            list.
 
     CognitoIdentityPoolId:
         Type: String
@@ -309,7 +305,8 @@ Resources:
         Properties:
             TemplateURL: !Sub "https://${BootstrapBucket}.s3.${AWS::Region}.amazonaws.com/${BootstrapPrefix}/templates/cognitouserpoolconfig.yaml"
             Parameters:
-                WebAppUrl: !If [NeedsParentOrigin, !GetAtt Pipeline.Outputs.WebAppBase, !Ref WebAppParentOrigin]
+                CloudFrontUrl: !GetAtt Pipeline.Outputs.WebAppBase
+                WebAppUrl: !Ref WebAppParentOrigin
                 WebAppPath: !Ref WebAppPath
                 CodeBuildProjectName: !Ref CodeBuildName
                 CognitoUserPool: !GetAtt CognitoIdentityPool.Outputs.CognitoUserPoolId
