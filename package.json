@@ -30,6 +30,8 @@
     "lint": "eslint --format node_modules/eslint-formatter-friendly src/lex-web-ui-loader"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "amazon-cognito-auth-js": "^1.2.4",
     "core-js": "^3.6.5",
     "jsonwebtoken": "^8.5.1",

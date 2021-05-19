@@ -90,9 +90,9 @@
       v-model="shouldShowHelpTooltip"
       content-class="tooltip-custom"
       activator=".help-toggle"
-      left
+      bottom
     >
-      <span id="help-tooltip">help</span>
+      <span id="help-tooltip">Skip Screening and Apply Now</span>
     </v-tooltip>
     <v-tooltip
       v-model="shouldShowSFXTooltip"
@@ -107,10 +107,13 @@
       v-on:click="sendHelp"
       v-on="tooltipHelpEventHandlers"
       v-bind:disabled="isLexProcessing"
-      icon
+      color="red"
+      depressed="true"
+      href="http://localhost:3000/ApplyForBenefits/ABOVR"
+      target="_blank"
       class="help-toggle"
     >
-      <v-icon> help_outline </v-icon>
+      Skip Screening and Apply Now
     </v-btn>
 
     <v-btn
@@ -290,10 +293,10 @@ export default {
     },
     sendHelp() {
       const message = {
-        type: 'human',
+        type: 'button',
         text: this.$store.state.config.ui.helpIntent,
       };
-      this.$store.dispatch('postTextMessage', message);
+      /*this.$store.dispatch('postTextMessage', message);*/
       this.shouldShowHelpTooltip = false;
     },
     onPrev() {

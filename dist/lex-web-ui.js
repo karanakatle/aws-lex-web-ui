@@ -20393,9 +20393,12 @@ License for the specific language governing permissions and limitations under th
       }
     },
     sendHelp: function sendHelp() {
-        redirect(link) 
-        {window.location.href = link;
-      }
+      var message = {
+        type: 'button',
+        text: this.$store.state.config.ui.helpIntent
+      };
+      /*this.$store.dispatch('postTextMessage', message);*/
+      this.shouldShowHelpTooltip = false;
     },
     onPrev: function onPrev() {
       if (this.prevNav) {
@@ -21743,7 +21746,7 @@ var render = function() {
               attrs: {
                 "content-class": "tooltip-custom",
                 activator: ".help-toggle",
-                left: ""
+                bottom: ""
               },
               model: {
                 value: _vm.shouldShowHelpTooltip,
@@ -21753,7 +21756,7 @@ var render = function() {
                 expression: "shouldShowHelpTooltip"
               }
             },
-            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v("help")])]
+            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v("Skip Screening and Apply Now")])]
           ),
           _c(
             "v-tooltip",
@@ -21783,13 +21786,12 @@ var render = function() {
                 _vm._g(
                   {
                     staticClass: "help-toggle",
-                    attrs: { disabled: _vm.isLexProcessing, text: "", depressed: "", href: "http://localhost:3000/ApplyForBenefits/ABOVR", target:"_blank"},
+                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "http://localhost:3000/ApplyForBenefits/ABOVR", target:"_blank"},
                     on: { click: _vm.sendHelp }
                   },
                   _vm.tooltipHelpEventHandlers
                 ),
-                [_c("v-btn", { attrs: { text: "", depressed: "" } } [
-                  _vm._v(" Skip Screening and Apply Now ")])],
+                [_vm._v(" Skip Screening and Apply Now ")],
                 1
               )
             : _vm._e(),
