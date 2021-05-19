@@ -1,16 +1,16 @@
 {
-  "region": "us-east-1",
+  "region": "us-west-2",
   "cognito": {
-    "poolId": "",
-    "aws_cognito_region": "us-east-1",
-    "region": "us-east-1"
+    "poolId": "us-west-2:5ad87c5e-62bb-4c04-8a9b-db05554a2876",
+    "aws_cognito_region": "us-west-2",
+    "region": "us-west-2"
   },
   "lex": {
-    "botName": "OrderFlowers",
-    "initialText": "You can ask me for help ordering flowers. Just type \"order flowers\" or click on the mic and say it.",
-    "initialSpeechInstruction": "Say 'Order Flowers' to get started.",
+    "botName": "RobinChatbot",
+    "initialText": "",
+    "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
     "initialUtterance": "",
-    "region": "us-east-1",
+    "region": "us-west-2",
     "retryOnLexPostTextTimeout": false,
     "retryCountPostTextTimeout": 1,
     "v2BotId": "",
@@ -19,11 +19,11 @@
   },
   "ui": {
     "parentOrigin": "http://localhost:8000",
-    "toolbarTitle": "Order Flowers",
+    "toolbarTitle": "Do I Qualify?",
     "toolbarLogo": "",
-    "positiveFeedbackIntent": "Thumbs up",
-    "negativeFeedbackIntent": "Thumbs down",
-    "helpIntent": "Help",
+    "positiveFeedbackIntent": "",
+    "negativeFeedbackIntent": "",
+    "helpIntent": "",
     "enableLogin": false,
     "forceLogin": false,
     "AllowSuperDangerousHTMLInMessage": true,

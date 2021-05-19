@@ -20393,12 +20393,9 @@ License for the specific language governing permissions and limitations under th
       }
     },
     sendHelp: function sendHelp() {
-      var message = {
-        type: 'human',
-        text: this.$store.state.config.ui.helpIntent
-      };
-      this.$store.dispatch('postTextMessage', message);
-      this.shouldShowHelpTooltip = false;
+        redirect(link) 
+        {window.location.href = link;
+      }
     },
     onPrev: function onPrev() {
       if (this.prevNav) {
@@ -21786,12 +21783,13 @@ var render = function() {
                 _vm._g(
                   {
                     staticClass: "help-toggle",
-                    attrs: { disabled: _vm.isLexProcessing, icon: "" },
+                    attrs: { disabled: _vm.isLexProcessing, text: "", depressed: "", href: "http://localhost:3000/ApplyForBenefits/ABOVR", target:"_blank"},
                     on: { click: _vm.sendHelp }
                   },
                   _vm.tooltipHelpEventHandlers
                 ),
-                [_c("v-icon", [_vm._v(" help_outline ")])],
+                [_c("v-btn", { attrs: { text: "", depressed: "" } } [
+                  _vm._v(" Skip Screening and Apply Now ")])],
                 1
               )
             : _vm._e(),
