@@ -20561,7 +20561,7 @@ var render = function() {
                       },
                       _vm.tooltipEventHandlers
                     ),
-                    [_c("v-icon", { attrs: { medium: "" } }, [_vm._v("send")])],
+                    [_c("v-icon", { attrs: { medium: "", color:"red" } }, [_vm._v("send")])],
                     1
                   )
                 : _c(
@@ -21470,6 +21470,7 @@ var render = function() {
                     disabled: _vm.shouldDisableClickedResponseCardButtons,
                     round: "",
                     default: "",
+                    outlined: "",
                     color: button.text.toLowerCase() === "more" ? "" : "accent"
                   },
                   nativeOn: {
@@ -35292,7 +35293,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.card[data-v-c460a2be] {\n  width: 75vw;\n  position: inherit; /* workaround to card being displayed on top of toolbar shadow */\n  padding-bottom: 0.5em;\n  box-shadow: none !important;\n  background-color: unset !important;\n}\n.card__title[data-v-c460a2be] {\n  padding: 0.5em;\n  padding-top: 0.75em;\n}\n.card__text[data-v-c460a2be] {\n  padding: 0.33em;\n}\n.button-row[data-v-c460a2be] {\n  display: inline-block;\n}\n.card__actions .btn[data-v-c460a2be] {\n  margin: 4px 4px;\n  font-size: 1em;\n  min-width: 44px;\n}\n.card__actions.button-row[data-v-c460a2be] {\n  justify-content: center;\n  padding-bottom: 0.15em;\n}\n", ""]);
+exports.push([module.i, "\n.card[data-v-c460a2be] {\n  width: 75vw;\n  position: inherit; /* workaround to card being displayed on top of toolbar shadow */\n  padding-bottom: 0.5em;\n  box-shadow: none !important;\n  background-color: unset !important;\n}\n.card__title[data-v-c460a2be] {\n  padding: 0.5em;\n  padding-top: 0.75em;\n}\n.card__text[data-v-c460a2be] {\n  padding: 0.33em;\n}\n.button-row[data-v-c460a2be] {\n  display: inline-block;\n}\n.card__actions .btn[data-v-c460a2be] {\n  margin: 4px 4px;\n  font-size: 1em;\n  min-width: 44px;\n}\n.card__actions.button-row[data-v-c460a2be] {\n  justify-content: center;\n  padding-bottom: 0.15em;\n}\n.disable-button[data-v-c460a2be] {\n background-color: #f0f1f4;\n color: #565c71;\nborder: #f0f1f4;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

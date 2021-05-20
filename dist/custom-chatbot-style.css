@@ -16,16 +16,16 @@
 }*/
 
 .message-bot .message-bubble {
-    background-color: #D3D3D3 !important;
+    background-color: #F0F1F4 !important;
     /*background-color: #eeedeb !important;*/
 }
 
-/*.message-human .message-bubble {
-    background-color: #afcffa !important;
+.message-human .message-bubble {
+    background-color: #f4fafa !important;
 }
 
-.message-bubble p {
-    margin-bottom: 8px;
+/*.message-bubble p {
+    margin-bottom: 20px;
 }
 
 .message-bubble p:last-child {
@@ -45,7 +45,7 @@
 }*/
 
 .message-text {
-  color: #313639;
+  color: #07142C ;
   width: 100%;
 }
 
@@ -72,16 +72,38 @@
 .input-group--text-field textarea,
 .input-group--text-field label {
     font-size: 14px !important;
-}
+}*/
 
 .card__actions .btn {
   margin: 4px 4px !important;
   font-size: 1em !important;
   min-width: 44px !important;
-  background-color: #afcffa !important;
 }
 
-*/
+.btn.btn--outline {
+    background-color: #fff !important;
+    border: .125rem solid #086f72;
+    color: #086f72 !important;
+  }
+
+
+.btn.btn--disabled {
+    box-shadow: none !important;
+    pointer-events: none;
+    background-color: #f0f1f4;
+    color: #565c71;
+    border: #f0f1f4;
+}
+
+.btn {
+    text-transform: none;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 button.min-button {
     border-radius: 60px;

@@ -53,7 +53,7 @@
           icon
           aria-label="Send Message"
         >
-          <v-icon medium>send</v-icon>
+          <v-icon color="red" medium>send</v-icon>
         </v-btn>
         <v-btn
           v-else

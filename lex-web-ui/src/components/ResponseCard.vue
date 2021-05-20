@@ -21,6 +21,7 @@
         v-bind:key="button.id"
         v-on:click.once.native="onButtonClick(button.value)"
         v-bind:disabled="shouldDisableClickedResponseCardButtons"
+        outlined
         round
         default
         v-bind:color="button.text.toLowerCase() === 'more' ? '' : 'accent'"
@@ -108,6 +109,7 @@ export default {
 }
 
 .button-row {
+
   display: inline-block;
 }
 
@@ -121,4 +123,11 @@ export default {
   justify-content: center;
   padding-bottom: 0.15em;
 }
+
+.btn.btn--outline {
+  background-color: #fff !important;
+  border: .125rem solid #086f72;
+  color: #086f72 !important;
+}
+
 </style>

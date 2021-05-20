@@ -111,7 +111,7 @@
       depressed="true"
       href="http://localhost:3000/ApplyForBenefits/ABOVR"
       target="_blank"
-      class="help-toggle"
+      class="tootlbar-btn"
     >
       Skip Screening and Apply Now
     </v-btn>
