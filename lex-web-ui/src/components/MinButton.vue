@@ -24,9 +24,9 @@
         aria-label="show chat window"
         class="min-button min-button-content"
       >
-        <v-icon left>
-          {{'chat'}}
-        </v-icon>
+        <i class='fas fa-comments' style="padding-right: 8px">
+        <!--  {{'chat'}} -->
+        </i>
         {{minButtonContent}}   
       </v-btn>
       <!-- seperate button for button with text vs w/o -->
@@ -45,9 +45,9 @@
         aria-label="show chat window"
         class="min-button"
       >
-        <v-icon>
-          {{'chat'}}
-        </v-icon>
+        <i class='fas fa-comments'>
+          <!--{{'chat'}}-->
+        </i>
       </v-btn>
     </v-fab-transition>
   </v-container>

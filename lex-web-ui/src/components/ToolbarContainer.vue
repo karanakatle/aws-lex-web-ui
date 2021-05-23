@@ -109,7 +109,7 @@
       v-bind:disabled="isLexProcessing"
       color="red"
       depressed="true"
-      href="http://localhost:3000/ApplyForBenefits/ABOVR"
+      href="https://d3e5skbg1emx1b.cloudfront.net/ApplyForBenefits/ABOVR"
       target="_blank"
       class="tootlbar-btn"
     >

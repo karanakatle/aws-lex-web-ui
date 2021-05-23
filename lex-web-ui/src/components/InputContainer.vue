@@ -53,7 +53,7 @@
           icon
           aria-label="Send Message"
         >
-          <v-icon color="red" medium>send</v-icon>
+          <i color="red" medium class="fas fa-paper-plane" style="color:red">send</i>
         </v-btn>
         <v-btn
           v-else

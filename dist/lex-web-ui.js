@@ -20561,7 +20561,7 @@ var render = function() {
                       },
                       _vm.tooltipEventHandlers
                     ),
-                    [_c("v-icon", { attrs: { medium: "", color:"red" } }, [_vm._v("send")])],
+                    [_c("i", { attrs: { medium: "", color:"red", class:"fas fa-paper-plane",style:"color:red" } })],
                     1
                   )
                 : _c(
@@ -21252,9 +21252,7 @@ var render = function() {
                   _vm.tooltipEventHandlers
                 ),
                 [
-                  _c("v-icon", { attrs: { left: "" } }, [
-                    _vm._v(" " + _vm._s("chat") + " ")
-                  ]),
+                  _c("i", { attrs: { class: "fas fa-comments", style:"padding-right: 8px" } }),
                   _vm._v(" " + _vm._s(_vm.minButtonContent) + " ")
                 ],
                 1
@@ -21291,7 +21289,7 @@ var render = function() {
                   },
                   _vm.tooltipEventHandlers
                 ),
-                [_c("v-icon", [_vm._v(" " + _vm._s("chat") + " ")])],
+                [_c("i" , { attrs: { class: "fas fa-comments" } })],
                 1
               )
         ],
@@ -21787,7 +21785,7 @@ var render = function() {
                 _vm._g(
                   {
                     staticClass: "help-toggle",
-                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "http://localhost:3000/ApplyForBenefits/ABOVR", target:"_blank"},
+                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "https://d3e5skbg1emx1b.cloudfront.net/ApplyForBenefits/ABOVR", target:"_blank"},
                     on: { click: _vm.sendHelp }
                   },
                   _vm.tooltipHelpEventHandlers

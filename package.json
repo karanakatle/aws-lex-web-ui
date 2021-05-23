@@ -35,7 +35,12 @@
     "amazon-cognito-auth-js": "^1.2.4",
     "core-js": "^3.6.5",
     "jsonwebtoken": "^8.5.1",
-    "regenerator-runtime": "^0.13.5"
+    "material-design-icons": "^3.0.1",
+    "regenerator-runtime": "^0.13.5",
+    "roboto-fontface": "^0.10.0",
+    "vue": "^2.6.12",
+    "vuetify": "^2.5.0",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
