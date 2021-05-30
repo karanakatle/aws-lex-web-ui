@@ -23,7 +23,8 @@
       "toolbarLogo": "",
       "positiveFeedbackIntent": "",
       "negativeFeedbackIntent": "",
-      "helpIntent": "help",
+      "helpIntent": "Skip Screening and Apply Now",
+      "helptooltip": "Skip Screening and Apply Now",
       "enableLogin": false,
       "forceLogin": false,
       "AllowSuperDangerousHTMLInMessage": true,
@@ -37,7 +38,9 @@
       "messageMenu": false,
       "hideButtonMessageBubble": true,
       "saveHistory": false,
-      "textInputPlaceholder": "Type Here"
+      "textInputPlaceholder": "Type Here",
+      "sendtooltip": "send",
+      "minimizetooltip": "minimize"
     },
     "polly": {
       "voiceId": "Salli"

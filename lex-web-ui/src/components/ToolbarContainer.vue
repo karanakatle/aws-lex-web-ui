@@ -82,9 +82,9 @@
       v-model="shouldShowTooltip"
       content-class="tooltip-custom"
       activator=".min-max-toggle"
-      left
+      bottom
     >
-      <span id="min-max-tooltip">{{ toolTipMinimize }}</span>
+      <span id="min-max-tooltip">{{ minimizetooltip }}</span>
     </v-tooltip>
     <v-tooltip
       v-model="shouldShowHelpTooltip"
@@ -92,7 +92,7 @@
       activator=".help-toggle"
       bottom
     >
-      <span id="help-tooltip">Skip Screening and Apply Now</span>
+      <span id="help-tooltip">{{ helptooltip }}</span>
     </v-tooltip>
     <v-tooltip
       v-model="shouldShowSFXTooltip"
@@ -109,11 +109,11 @@
       v-bind:disabled="isLexProcessing"
       color="red"
       depressed="true"
-      href="https://d3e5skbg1emx1b.cloudfront.net/ApplyForBenefits/ABOVR"
+      href="https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR"
       target="_blank"
       class="tootlbar-btn"
     >
-      Skip Screening and Apply Now
+      {{ helpIntent }}
     </v-btn>
 
     <v-btn

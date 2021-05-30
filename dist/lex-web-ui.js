@@ -18388,7 +18388,7 @@ License for the specific language governing permissions and limitations under th
     },
     inputButtonTooltip: function inputButtonTooltip() {
       if (this.shouldShowSendButton) {
-        return 'send';
+        return this.$store.state.config.ui.sendtooltip
       }
 
       if (this.isMicMuted) {
@@ -19790,6 +19790,9 @@ License for the specific language governing permissions and limitations under th
     toolTipMinimize: function toolTipMinimize() {
       return this.isUiMinimized ? 'maximize' : 'minimize';
     },
+    minimizetooltip: function minimizetooltip() {
+      return this.$store.state.config.ui.minimizetooltip;
+    },
     minButtonContent: function minButtonContent() {
       var n = this.$store.state.config.ui.minButtonContent.length;
       return n > 1 ? this.$store.state.config.ui.minButtonContent : false;
@@ -20320,6 +20323,9 @@ License for the specific language governing permissions and limitations under th
     toolTipMinimize: function toolTipMinimize() {
       return this.isUiMinimized ? 'maximize' : 'minimize';
     },
+    minimizetooltip: function minimizetooltip() {
+      return this.$store.state.config.ui.minimizetooltip;
+    },
     isEnableLogin: function isEnableLogin() {
       return this.$store.state.config.ui.enableLogin;
     },
@@ -20337,6 +20343,12 @@ License for the specific language governing permissions and limitations under th
     },
     isLexProcessing: function isLexProcessing() {
       return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
+    },
+    helpIntent: function helpIntent() {
+      return this.$store.state.config.ui.helpIntent;
+    },
+    helptooltip: function helptooltip() {
+      return this.$store.state.config.ui.helptooltip;
     },
     shouldRenderHelpButton: function shouldRenderHelpButton() {
       return !!this.$store.state.config.ui.helpIntent;
@@ -20394,10 +20406,10 @@ License for the specific language governing permissions and limitations under th
     },
     sendHelp: function sendHelp() {
       var message = {
-        type: 'button',
+        type: 'human',
         text: this.$store.state.config.ui.helpIntent
       };
-      /*this.$store.dispatch('postTextMessage', message);*/
+      this.$store.dispatch('postTextMessage', message);
       this.shouldShowHelpTooltip = false;
     },
     onPrev: function onPrev() {
@@ -21723,7 +21735,7 @@ var render = function() {
               attrs: {
                 "content-class": "tooltip-custom",
                 activator: ".min-max-toggle",
-                left: ""
+                bottom: ""
               },
               model: {
                 value: _vm.shouldShowTooltip,
@@ -21735,7 +21747,7 @@ var render = function() {
             },
             [
               _c("span", { attrs: { id: "min-max-tooltip" } }, [
-                _vm._v(_vm._s(_vm.toolTipMinimize))
+                _vm._v(_vm._s(_vm.minimizetooltip))
               ])
             ]
           ),
@@ -21755,7 +21767,7 @@ var render = function() {
                 expression: "shouldShowHelpTooltip"
               }
             },
-            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v("Skip Screening and Apply Now")])]
+            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v(_vm._s(_vm.helptooltip))])]
           ),
           _c(
             "v-tooltip",
@@ -21785,12 +21797,12 @@ var render = function() {
                 _vm._g(
                   {
                     staticClass: "help-toggle",
-                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "https://d3e5skbg1emx1b.cloudfront.net/ApplyForBenefits/ABOVR", target:"_blank"},
+                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR", target:"_blank"},
                     on: { click: _vm.sendHelp }
                   },
                   _vm.tooltipHelpEventHandlers
                 ),
-                [_vm._v(" Skip Screening and Apply Now ")],
+                [_vm._v(_vm._s(_vm.helpIntent))],
                 1
               )
             : _vm._e(),
@@ -83168,7 +83180,7 @@ var configEnvFile =  true ? {} : undefined; // default config used to provide a 
 
 var configDefault = {
   // AWS region
-  region: 'us-east-1',
+  region: 'us-west-2',
   cognito: {
     // Cognito pool id used to obtain credentials
     // e.g. poolId: 'us-east-1:deadbeef-cac0-babe-abcd-abcdef01234',
@@ -83180,13 +83192,13 @@ var configDefault = {
     v2BotAliasId: '',
     v2BotLocaleId: '',
     // Lex bot name
-    botName: 'WebUiOrderFlowers',
+    botName: 'RobinChatbot',
     // Lex bot alias/version
     botAlias: '$LATEST',
     // instruction message shown in the UI
-    initialText: 'You can ask me for help ordering flowers. ' + 'Just type "order flowers" or click on the mic and say it.',
+    initialText: '',
     // instructions spoken when mic is clicked
-    initialSpeechInstruction: 'Say "Order Flowers" to get started',
+    initialSpeechInstruction: 'Say "Hey Robin" to get started.',
     // initial Utterance to send to bot if defined
     initialUtterance: '',
     // Lex initial sessionAttributes
@@ -83224,7 +83236,7 @@ var configDefault = {
   },
   ui: {
     // this dynamicall changes the pageTitle injected at build time
-    pageTitle: 'Order Flowers Bot',
+    pageTitle: 'BenefitsCal PreScreening ChatBot',
     // when running as an embedded iframe, this will be used as the
     // be the parent origin used to send/receive messages
     // NOTE: this is also a security control
@@ -83241,11 +83253,13 @@ var configDefault = {
     messageReceivedSFX: 'received.mp3',
     // chat window text placeholder
     textInputPlaceholder: 'Type here or click on the mic',
+    // shows a tooltip on an inputButton
+    sendtooltip: 'send',
     // text shown when you hover over the minimized bot button
     minButtonContent: '',
     toolbarColor: 'red',
     // chat window title
-    toolbarTitle: 'Order Flowers',
+    toolbarTitle: 'Do I Qualify?',
     // logo used in toolbar - also used as favicon not specificied
     toolbarLogo: '',
     // fav icon
@@ -83276,7 +83290,11 @@ var configDefault = {
     positiveFeedbackIntent: '',
     negativeFeedbackIntent: '',
     // shows a help button on the toolbar when true
-    helpIntent: '',
+    helpIntent: 'Skip Screening and Apply Now',
+    // shows a tooltip on helpIntent button
+    helptooltip: 'Skip Screening and Apply Now',
+    // shows a tooltip on min-max-toggle button
+    minimizetooltip: 'minimize',
     // for instances when you only want to show error icons and feedback
     showErrorIcon: true,
     // Allows lex messages with session attribute
