@@ -95,23 +95,37 @@
     border: #f0f1f4;
 }
 
-.btn {
-    text-transform: none;
-}
-
-.help-toggle.btn.btn--depressed {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
 button.min-button {
     border-radius: 60px;
+    text-transform: none;
 }
 
 .message-button {
     display: none;
 }
 
+.toolbar.toolbar--dense.white {
+    margin-left: 10px;
+    background-color: #fff!important;
+    border-color: #fff!important;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+a.help-link {
+    text-align: center;
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.message-list-container.toolbar-height-md {
+    top: 48px;
+    height: calc(100% - 140px);
+
+}
 /*.fa, .fab, .fal, .far, .fas {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -130,74 +144,3 @@ button.min-button {
 .fas.fa-comments {
     font-size: 20px;
 }
-
-@media only screen and (max-width: 599px){
-.toolbar__title {
-    margin-right: -7px;
-    margin-left: 10px;
-    padding-inline-end: 10px;
-    word-spacing: -2px;
-    font-size: 0.7em;
-}
-}
-
-@media only screen and (min-width: 260px) and (max-width: 270px){
-    .toolbar__title {
-        margin-right: -7px;
-        margin-left: 10px;
-        padding-inline-end: 10px;
-        word-spacing: -2px;
-        font-size: 0.6em;
-    }
-    }
-
-@media only screen and (max-width: 380px) {
-.help-toggle.btn.btn--depressed {
-    font-size: 0.8em;
-    margin-left: -5px;
-    margin-right: -5px;
-}
-}
-
-
-@media only screen and (min-width: 300px) and (max-width: 599px) {
-        .help-toggle.btn.btn--depressed {
-            font-size: 0.7em;
-            margin-left: -5px;
-            margin-right: -5px;
-        }
-        }
-
-@media only screen and (min-width: 260px) and (max-width: 270px) {
-        .help-toggle.btn.btn--depressed {
-                font-size: 0.6em;
-                margin-left: -5px;
-                margin-right: -5px;
-        }
-        }
-
-.toolbar__content>.btn:last-child, .toolbar__content>.menu:first-child, .toolbar__extension>.btn:last-child, 
-.toolbar__extension>.menu:first-child {
-        margin-right: 8px;
-        margin-left: 4px;
-}
-
-@media only screen and (max-width: 340px) {
-.toolbar .toolbar__content>:not(.btn):not(.menu):first-child, .toolbar .toolbar__extension>:not(.btn):not(.menu):first-child {
-    margin-left: 0px;
-}
-}
-
-@media only screen and (max-width: 380px) {
-.toolbar .toolbar__content>.btn:last-child, .toolbar .toolbar__extension>.btn:last-child {
-    margin-right: 5px;
-    margin-left: 4px;
-}
-}
-
-@media only screen and (max-width: 599px) {
-    .toolbar .toolbar__content>.btn:last-child, .toolbar .toolbar__extension>.btn:last-child {
-        margin-right: 5px;
-        margin-left: 4px;
-    }
-    }

@@ -18658,6 +18658,12 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
     isUiMinimized: function isUiMinimized() {
       return this.$store.state.isUiMinimized;
     },
+    linkIntent: function linkIntent() {
+      return this.$store.state.config.ui.linkIntent;
+    },
+    isLexProcessing: function isLexProcessing() {
+      return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
+    },
     hasButtons: function hasButtons() {
       return this.$store.state.hasButtons;
     },
@@ -20344,12 +20350,6 @@ License for the specific language governing permissions and limitations under th
     isLexProcessing: function isLexProcessing() {
       return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
     },
-    helpIntent: function helpIntent() {
-      return this.$store.state.config.ui.helpIntent;
-    },
-    helptooltip: function helptooltip() {
-      return this.$store.state.config.ui.helptooltip;
-    },
     shouldRenderHelpButton: function shouldRenderHelpButton() {
       return !!this.$store.state.config.ui.helpIntent;
     },
@@ -20593,10 +20593,10 @@ var render = function() {
                       ])
                     ],
                     1
-                  )
+              ),
             ],
             1
-          )
+          ),
         ],
         1
       )
@@ -20671,7 +20671,7 @@ var render = function() {
             1
           )
         : _vm._e(),
-      !_vm.isUiMinimized && !_vm.hasButtons
+      !_vm.isUiMinimized && !_vm.hasButtons && !_vm.isLexProcessing
         ? _c("input-container", {
             ref: "InputContainer",
             attrs: {
@@ -20682,6 +20682,18 @@ var render = function() {
         : _vm._e(),
       _vm.isSFXOn
         ? _c("div", { attrs: { id: "sound", "aria-hidden": "true" } })
+        : _vm._e(),
+      !_vm.isUiMinimized
+        ? _c("a",
+            _vm._g({
+              staticClass:"help-link",
+              attrs:{
+                disabled:_vm.isLexProcessing,
+                href: "https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR",
+                target:"_blank"}
+              }), 
+              [_vm._v(_vm._s(_vm.linkIntent))],
+            1)
         : _vm._e()
     ],
     1
@@ -21711,7 +21723,7 @@ var render = function() {
                 }
               }
             },
-            [_c("h1", [_vm._v(_vm._s(_vm.toolbarTitle))])]
+            [_c("h3", [_vm._v(_vm._s(_vm.toolbarTitle))])]
           ),
           _c(
             "v-toolbar-title",
@@ -21767,7 +21779,7 @@ var render = function() {
                 expression: "shouldShowHelpTooltip"
               }
             },
-            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v(_vm._s(_vm.helptooltip))])]
+            [_c("span", { attrs: { id: "help-tooltip" } }, [_vm._v("help")])]
           ),
           _c(
             "v-tooltip",
@@ -21797,12 +21809,12 @@ var render = function() {
                 _vm._g(
                   {
                     staticClass: "help-toggle",
-                    attrs: { disabled: _vm.isLexProcessing, color: "red", depressed: "true", href: "https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR", target:"_blank"},
+                    attrs: { disabled: _vm.isLexProcessing, icon: "" },
                     on: { click: _vm.sendHelp }
                   },
                   _vm.tooltipHelpEventHandlers
                 ),
-                [_vm._v(_vm._s(_vm.helpIntent))],
+                [_c("v-icon", [_vm._v(" help_outline ")])],
                 1
               )
             : _vm._e(),
@@ -83290,9 +83302,9 @@ var configDefault = {
     positiveFeedbackIntent: '',
     negativeFeedbackIntent: '',
     // shows a help button on the toolbar when true
-    helpIntent: 'Skip Screening and Apply Now',
-    // shows a tooltip on helpIntent button
-    helptooltip: 'Skip Screening and Apply Now',
+    helpIntent: '',
+    // optional link at the bottom side of the chatbot when set to true (note need to change the margin of input field)
+    linkIntent: '',
     // shows a tooltip on min-max-toggle button
     minimizetooltip: 'minimize',
     // for instances when you only want to show error icons and feedback

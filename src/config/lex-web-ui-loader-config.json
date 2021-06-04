@@ -23,10 +23,9 @@
       "toolbarLogo": "",
       "positiveFeedbackIntent": "",
       "negativeFeedbackIntent": "",
-      "helpIntent": "Skip Screening and Apply Now",
-      "helptooltip": "Skip Screening and Apply Now",
       "enableLogin": false,
       "forceLogin": false,
+      "shouldDisableClickedResponseCardButtons": true,
       "AllowSuperDangerousHTMLInMessage": true,
       "shouldDisplayResponseCardTitle": false,
       "minButtonContent": "Do I Qualify?",
@@ -40,7 +39,8 @@
       "saveHistory": false,
       "textInputPlaceholder": "Type Here",
       "sendtooltip": "send",
-      "minimizetooltip": "minimize"
+      "minimizetooltip": "minimize",
+      "linkIntent": "Skip Screening and Apply Now"
     },
     "polly": {
       "voiceId": "Salli"

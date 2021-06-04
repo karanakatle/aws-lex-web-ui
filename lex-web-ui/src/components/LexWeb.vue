@@ -34,7 +34,7 @@
 
     <input-container
       ref="InputContainer"
-      v-if="!isUiMinimized && !hasButtons"
+      v-if="!isUiMinimized && !hasButtons && !isLexProcessing"
       v-bind:text-input-placeholder="textInputPlaceholder"
       v-bind:initial-speech-instruction="initialSpeechInstruction"
     ></input-container>
@@ -43,6 +43,14 @@
       id="sound"
       aria-hidden="true"
     />
+    <a
+      v-if="!isUiMinimized"
+      v-bind:disabled="isLexProcessing"
+      href="https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR"
+      target="_blank"
+      class="help-link"
+    />
+    {{linkIntent}}
   </v-app>
 </template>
 
@@ -109,6 +117,12 @@ export default {
     },
     isUiMinimized() {
       return this.$store.state.isUiMinimized;
+    },
+    linkIntent() {
+      return this.$store.state.config.ui.linkIntent;
+    },
+    isLexProcessing() {
+      return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
     },
     hasButtons() {
       return this.$store.state.hasButtons;

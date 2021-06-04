@@ -92,7 +92,7 @@
       activator=".help-toggle"
       bottom
     >
-      <span id="help-tooltip">{{ helptooltip }}</span>
+      <span id="help-tooltip">help</span>
     </v-tooltip>
     <v-tooltip
       v-model="shouldShowSFXTooltip"
@@ -107,13 +107,10 @@
       v-on:click="sendHelp"
       v-on="tooltipHelpEventHandlers"
       v-bind:disabled="isLexProcessing"
-      color="red"
-      depressed="true"
-      href="https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR"
-      target="_blank"
-      class="tootlbar-btn"
+      icon
+      class="help-toggle"
     >
-      {{ helpIntent }}
+      <v-icon> help_outline </v-icon>
     </v-btn>
 
     <v-btn
