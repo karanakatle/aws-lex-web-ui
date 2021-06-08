@@ -13,9 +13,10 @@
       replace the webpack tag with:
       <link href="lex-web-ui-loader.min.css" rel="stylesheet">
     -->
-    <%= htmlWebpackPlugin.tags.headTags %>
+    <link href="lex-web-ui-loader.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="./custom-chatbot-style.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
   </head>
   <body>
     <!--
@@ -27,7 +28,7 @@
       replace the webpack tag with:
       <script src="./lex-web-ui-loader.min.js"></script>
     -->
-    <%= htmlWebpackPlugin.tags.bodyTags %>
+    <script src="./lex-web-ui-loader.min.js"></script>
 
     <!--
       The following script instantiate the full page loader and

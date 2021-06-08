@@ -85090,7 +85090,7 @@ var recorder;
   sendInitialUtterance: function sendInitialUtterance(context) {
     if (context.state.config.lex.initialUtterance) {
       var message = {
-        type: context.state.config.ui.hideButtonMessageBubble ? 'button' : 'human',
+        //type: context.state.config.ui.hideButtonMessageBubble ? 'button' : 'human',
         text: context.state.config.lex.initialUtterance
       };
       context.dispatch('postTextMessage', message);

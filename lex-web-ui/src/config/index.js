@@ -231,6 +231,10 @@ const configDefault = {
 
     // Optionally keep chat session automatically when load
     saveHistory: false,
+
+    // Optionally if an <a href> link is clicked with the same domain
+    // enforce refreshing main page rather than launching a new window
+    refreshWindowOnLinkClick: '',
   },
 
   /* Configuration to enable voice and to pass options to the recorder

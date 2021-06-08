@@ -9,7 +9,7 @@
       "botName": "RobinChatbot",
       "initialText": "",
       "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
-      "initialUtterance": "",
+      "initialUtterance": "english",
       "region": "us-west-2",
       "retryOnLexPostTextTimeout": false,
       "retryCountPostTextTimeout": 1,
@@ -40,7 +40,8 @@
       "textInputPlaceholder": "Type Here",
       "sendtooltip": "send",
       "minimizetooltip": "minimize",
-      "linkIntent": "Skip Screening and Apply Now"
+      "linkIntent": "Skip Screening and Apply Now",
+      "refreshWindowOnLinkClick": ""
     },
     "polly": {
       "voiceId": "Salli"
