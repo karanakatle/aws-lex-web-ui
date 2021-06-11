@@ -40,7 +40,8 @@
       "textInputPlaceholder": "Type Here",
       "sendtooltip": "send",
       "minimizetooltip": "minimize",
-      "linkIntent": "Skip Screening and Apply Now"
+      "linkIntent": "Skip Screening and Apply Now",
+      "refreshWindowOnLinkClick": ""
     },
     "polly": {
       "voiceId": "Salli"

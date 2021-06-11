@@ -34,6 +34,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "amazon-cognito-auth-js": "^1.2.4",
     "core-js": "^3.6.5",
+    "element-closest": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "material-design-icons": "^3.0.1",
     "regenerator-runtime": "^0.13.5",

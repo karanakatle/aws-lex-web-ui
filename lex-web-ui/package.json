@@ -23,6 +23,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "aws-sdk": "^2.875.0",
     "core-js": "^3.6.5",
+    "element-closest": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "marked": "^2.0.1",
     "material-design-icons": "^3.0.1",
