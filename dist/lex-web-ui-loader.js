@@ -75754,7 +75754,7 @@ var DependencyLoader = /*#__PURE__*/function () {
       } // load fails after this timeout
 
 
-      var loadTimeoutInMs = 10000; // For scripts, name is used to check if the dependency global variable exist
+      var loadTimeoutInMs = 120000; // For scripts, name is used to check if the dependency global variable exist
       // it is also used to build the element id of the HTML tag
 
       var name = dependency.name;
@@ -76907,7 +76907,7 @@ var IframeComponentLoader = /*#__PURE__*/function () {
       var _this6 = this;
 
       var iframeLoadManager = {
-        timeoutInMs: 20000,
+        timeoutInMs: 120000,
         timeoutId: null,
         onIframeLoaded: null,
         onIframeTimeout: null
@@ -76950,7 +76950,7 @@ var IframeComponentLoader = /*#__PURE__*/function () {
         onConfigEventTimeout: null
       };
       return new Promise(function (resolve, reject) {
-        var timeoutInMs = 15000;
+        var timeoutInMs = 120000;
 
         readyManager.checkIsChatBotReady = function () {
           // isChatBotReady set by event received from iframe

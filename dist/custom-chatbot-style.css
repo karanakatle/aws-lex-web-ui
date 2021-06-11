@@ -126,6 +126,18 @@ a.help-link {
     height: calc(100% - 140px);
 
 }
+
+.message-list-container.toolbar-height-sm {
+    top: 48px;
+    height: calc(100% - 140px);
+
+}
+
+.message-list-container.toolbar-height-lg {
+    top: 48px;
+    height: calc(100% - 140px);
+
+}
 /*.fa, .fab, .fal, .far, .fas {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
