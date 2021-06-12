@@ -9,7 +9,7 @@
       "botName": "RobinChatbot",
       "initialText": "",
       "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
-      "initialUtterance": "english",
+      "initialUtterance": "",
       "region": "us-west-2",
       "retryOnLexPostTextTimeout": false,
       "retryCountPostTextTimeout": 1,

@@ -51,6 +51,9 @@
           $('#send-intent').prop('disabled', false);
 
         })
+        .then(function () {
+          iframeLoader.api.postText('english');
+        })
         .catch(function (error) {
           console.error('chatbot UI failed to load', error);
         });
