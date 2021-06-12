@@ -21,7 +21,7 @@
         v-bind:key="button.id"
         v-on:click.once.native="onButtonClick(button.value)"
         v-bind:disabled="shouldDisableClickedResponseCardButtons"
-        outline="true"
+        outline= true
         round
         v-bind:color="button.text.toLowerCase() === 'more' ? '' : 'accent'"
         class="secondary--text"

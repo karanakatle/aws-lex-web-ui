@@ -21491,7 +21491,7 @@ var render = function() {
                   attrs: {
                     disabled: _vm.shouldDisableClickedResponseCardButtons,
                     round: "",
-                    outline: "true",
+                    outline: true,
                     color: button.text.toLowerCase() === "more" ? "" : "accent"
                   },
                   nativeOn: {
