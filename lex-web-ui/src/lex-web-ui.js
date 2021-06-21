@@ -122,26 +122,25 @@ export class Loader {
       throw new Error('unable to find Vuex');
     }
 
-    const AWSConfigConstructor = (window.AWS && window.AWS.Config) ?
-      window.AWS.Config :
-      AWSConfig;
+    const AWSConfigConstructor = (window.AWS && window.AWS.Config)
+      ? window.AWS.Config
+      : AWSConfig;
 
-    const CognitoConstructor =
-      (window.AWS && window.AWS.CognitoIdentityCredentials) ?
-        window.AWS.CognitoIdentityCredentials :
-        CognitoIdentityCredentials;
+    const CognitoConstructor = (window.AWS && window.AWS.CognitoIdentityCredentials)
+      ? window.AWS.CognitoIdentityCredentials
+      : CognitoIdentityCredentials;
 
-    const PollyConstructor = (window.AWS && window.AWS.Polly) ?
-      window.AWS.Polly :
-      Polly;
+    const PollyConstructor = (window.AWS && window.AWS.Polly)
+      ? window.AWS.Polly
+      : Polly;
 
-    const LexRuntimeConstructor = (window.AWS && window.AWS.LexRuntime) ?
-      window.AWS.LexRuntime :
-      LexRuntime;
+    const LexRuntimeConstructor = (window.AWS && window.AWS.LexRuntime)
+      ? window.AWS.LexRuntime
+      : LexRuntime;
 
-    const LexRuntimeConstructorV2 = (window.AWS && window.AWS.LexRuntimeV2) ?
-      window.AWS.LexRuntimeV2 :
-      LexRuntimeV2;
+    const LexRuntimeConstructorV2 = (window.AWS && window.AWS.LexRuntimeV2)
+      ? window.AWS.LexRuntimeV2
+      : LexRuntimeV2;
 
     if (!AWSConfigConstructor || !CognitoConstructor || !PollyConstructor
         || !LexRuntimeConstructor || !LexRuntimeConstructorV2) {
@@ -162,8 +161,8 @@ export class Loader {
     const lexRuntimeV2Client = new LexRuntimeConstructorV2(awsConfig);
     /* eslint-disable no-console */
     const pollyClient = (
-      typeof mergedConfig.recorder === 'undefined' ||
-      (mergedConfig.recorder && mergedConfig.recorder.enable !== false)
+      typeof mergedConfig.recorder === 'undefined'
+      || (mergedConfig.recorder && mergedConfig.recorder.enable !== false)
     ) ? new PollyConstructor(awsConfig) : null;
 
     this.store = new VuexConstructor.Store({ ...VuexStore });

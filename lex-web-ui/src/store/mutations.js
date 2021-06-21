@@ -285,18 +285,18 @@ export default {
 
     // security: do not accept dynamic parentOrigin
     const parentOrigin = (
-      state.config && state.config.ui &&
-      state.config.ui.parentOrigin
-    ) ?
-      state.config.ui.parentOrigin :
-      config.ui.parentOrigin || window.location.origin;
+      state.config && state.config.ui
+      && state.config.ui.parentOrigin
+    )
+      ? state.config.ui.parentOrigin
+      : config.ui.parentOrigin || window.location.origin;
     const configFiltered = {
       ...config,
       ...{ ui: { ...config.ui, parentOrigin } },
     };
-    if (state.config && state.config.ui && state.config.ui.parentOrigin &&
-      config.ui && config.ui.parentOrigin &&
-      config.ui.parentOrigin !== state.config.ui.parentOrigin
+    if (state.config && state.config.ui && state.config.ui.parentOrigin
+      && config.ui && config.ui.parentOrigin
+      && config.ui.parentOrigin !== state.config.ui.parentOrigin
     ) {
       console.warn('ignoring parentOrigin in config: ', config.ui.parentOrigin);
     }

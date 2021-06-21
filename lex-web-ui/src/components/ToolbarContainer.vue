@@ -235,9 +235,9 @@ export default {
     },
     shouldRenderSfxButton() {
       return (
-        this.$store.state.config.ui.enableSFX &&
-        this.$store.state.config.ui.messageSentSFX &&
-        this.$store.state.config.ui.messageReceivedSFX
+        this.$store.state.config.ui.enableSFX
+        && this.$store.state.config.ui.messageSentSFX
+        && this.$store.state.config.ui.messageReceivedSFX
       );
     },
     shouldRenderBackButton() {
@@ -288,12 +288,24 @@ export default {
         this.$emit('toggleMinimizeUi');
       }
     },
+    checkMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('MinimizeUi');
+      }
+    },
+    removeMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('removeMinimizeUi');
+      }
+    },
     sendHelp() {
       const message = {
         type: 'button',
         text: this.$store.state.config.ui.helpIntent,
       };
-      /*this.$store.dispatch('postTextMessage', message);*/
+      /* this.$store.dispatch('postTextMessage', message); */
       this.shouldShowHelpTooltip = false;
     },
     onPrev() {

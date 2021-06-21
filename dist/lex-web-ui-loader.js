@@ -77090,6 +77090,38 @@ var IframeComponentLoader = /*#__PURE__*/function () {
             });
           });
         },
+        // sent when minimize button is pressed within the iframe component
+        MinimizeUi: function MinimizeUi(evt) {
+          this.MinimizeUiClass().then(function () {
+            return evt.ports[0].postMessage({
+              event: 'resolve',
+              type: evt.data.event
+            });
+          }).catch(function (error) {
+            console.error('failed to MinimizeUi', error);
+            evt.ports[0].postMessage({
+              event: 'reject',
+              type: evt.data.event,
+              error: 'failed to MinimizeUi'
+            });
+          });
+        },
+        // sent when minimize button is pressed within the iframe component
+        removeMinimizeUi: function removeMinimizeUi(evt) {
+          this.removeMinimizeUiClass().then(function () {
+            return evt.ports[0].postMessage({
+              event: 'resolve',
+              type: evt.data.event
+            });
+          }).catch(function (error) {
+            console.error('failed to removeMinimizeUi', error);
+            evt.ports[0].postMessage({
+              event: 'reject',
+              type: evt.data.event,
+              error: 'failed to removeMinimizeUi'
+            });
+          });
+        },
         // sent when login is requested from iframe
         requestLogin: function requestLogin(evt) {
           evt.ports[0].postMessage({
@@ -77236,6 +77268,44 @@ var IframeComponentLoader = /*#__PURE__*/function () {
      */
 
   }, {
+    key: "MinimizeUiClass",
+    value: function MinimizeUiClass() {
+      try {
+        this.containerElement.classList.add("".concat(this.containerClass, "--minimize"));
+
+        if (this.containerElement.classList.contains("".concat(this.containerClass, "--minimize"))) {
+          localStorage.setItem("".concat(this.config.cognito.appUserPoolClientId, "lastUiIsMinimized"), 'true');
+        } else {
+          localStorage.setItem("".concat(this.config.cognito.appUserPoolClientId, "lastUiIsMinimized"), 'false');
+        }
+
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(new Error("failed to minimize UI ".concat(err)));
+      }
+    }
+    /**
+     * Shows the iframe
+     */
+
+  }, {
+    key: "removeMinimizeUiClass",
+    value: function removeMinimizeUiClass() {
+      try {
+        if (this.containerElement.classList.contains("".concat(this.containerClass, "--minimize"))) {
+        this.containerElement.classList.remove("".concat(this.containerClass, "--minimize"));
+        localStorage.setItem("".concat(this.config.cognito.appUserPoolClientId, "lastUiIsMinimized"), 'false');
+        }
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(new Error("failed to remove minimize UI ".concat(err)));
+      }
+    }
+    /**
+     * Shows the iframe
+     */
+
+  }, {
     key: "showIframe",
     value: function showIframe() {
       var _this11 = this;
@@ -77243,7 +77313,7 @@ var IframeComponentLoader = /*#__PURE__*/function () {
       return Promise.resolve().then(function () {
         // check for last state and resume with this configuration
         if (_this11.config.iframe.shouldLoadIframeMinimized) {
-          _this11.api.toggleMinimizeUi();
+          _this11.api.MinimizeUi();
 
           localStorage.setItem("".concat(_this11.config.cognito.appUserPoolClientId, "lastUiIsMinimized"), 'true');
         } else if (localStorage.getItem("".concat(_this11.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(_this11.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true') {
@@ -77294,6 +77364,16 @@ var IframeComponentLoader = /*#__PURE__*/function () {
         toggleMinimizeUi: function toggleMinimizeUi() {
           return _this12.sendMessageToIframe({
             event: 'toggleMinimizeUi'
+          });
+        },
+        MinimizeUi: function MinimizeUi() {
+          return _this12.sendMessageToIframe({
+            event: 'MinimizeUi'
+          });
+        },
+        removeMinimizeUi: function removeMinimizeUi() {
+          return _this12.sendMessageToIframe({
+            event: 'removeMinimizeUi'
           });
         },
         postText: function postText(message) {

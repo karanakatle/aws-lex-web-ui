@@ -61,8 +61,8 @@ export default {
   methods: {
     scrollDown() {
       return this.$nextTick(() => {
-        const lastMessageOffset = (this.$el.lastElementChild) ?
-          this.$el.lastElementChild.getBoundingClientRect().height : 0;
+        const lastMessageOffset = (this.$el.lastElementChild)
+          ? this.$el.lastElementChild.getBoundingClientRect().height : 0;
         this.$el.scrollTop = this.$el.scrollHeight - lastMessageOffset;
       });
     },

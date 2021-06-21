@@ -99,14 +99,14 @@ export default {
         {
           type: 'web',
           regex: new RegExp(
-            '\\b((?:https?://\\w{1}|www\\.)(?:[\\w-.]){2,256}' +
-            '(?:[\\w._~:/?#@!$&()*+,;=[\'\\]-]){0,256})',
+            '\\b((?:https?://\\w{1}|www\\.)(?:[\\w-.]){2,256}'
+            + '(?:[\\w._~:/?#@!$&()*+,;=[\'\\]-]){0,256})',
             'im',
           ),
           replace: (item) => {
             const url = (!/^https?:\/\//.test(item)) ? `http://${item}` : item;
-            return '<a target="_blank" ' +
-              `href="${encodeURI(url)}">${this.encodeAsHtml(item)}</a>`;
+            return '<a target="_blank" '
+              + `href="${encodeURI(url)}">${this.encodeAsHtml(item)}</a>`;
           },
         },
       ];
@@ -124,8 +124,8 @@ export default {
                 (messageAccum, item, index, array) => {
                   let messageResult = '';
                   if ((index % 2) === 0) {
-                    const urlItem = ((index + 1) === array.length) ?
-                      '' : replacer.replace(array[index + 1]);
+                    const urlItem = ((index + 1) === array.length)
+                      ? '' : replacer.replace(array[index + 1]);
                     messageResult = `${this.encodeAsHtml(item)}${urlItem}`;
                   }
                   return messageAccum + messageResult;

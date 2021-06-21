@@ -70,8 +70,8 @@ export default {
     },
     shouldDisableClickedResponseCardButtons() {
       return (
-        this.$store.state.config.ui.shouldDisableClickedResponseCardButtons &&
-        this.hasButtonBeenClicked
+        this.$store.state.config.ui.shouldDisableClickedResponseCardButtons
+        && this.hasButtonBeenClicked
       );
     },
   },

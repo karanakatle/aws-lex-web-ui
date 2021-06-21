@@ -5,7 +5,7 @@
     <min-button
       v-bind:toolbar-color="toolbarColor"
       v-bind:is-ui-minimized="isUiMinimized"
-      v-on:toggleMinimizeUi="toggleMinimizeUi"
+      v-on:toggleMinimizeUi="removeMinimizeUi"
     ></min-button>
     <toolbar-container
       v-if="!isUiMinimized"
@@ -14,7 +14,7 @@
       v-bind:toolbar-color="toolbarColor"
       v-bind:toolbar-logo="toolbarLogo"
       v-bind:is-ui-minimized="isUiMinimized"
-      v-on:toggleMinimizeUi="toggleMinimizeUi"
+      v-on:toggleMinimizeUi="MinimizeUi"
       @requestLogin="handleRequestLogin"
       @requestLogout="handleRequestLogout"
     ></toolbar-container>
@@ -46,7 +46,7 @@
     <a
       v-if="!isUiMinimized"
       v-bind:disabled="isLexProcessing"
-      href="https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR"
+      v-href="link"
       target="_blank"
       class="help-link"
     />
@@ -122,6 +122,9 @@ export default {
     linkIntent() {
       return this.$store.state.config.ui.linkIntent;
     },
+    link() {
+      return this.$store.state.config.ui.link;
+    },
     isLexProcessing() {
       return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
     },
@@ -133,11 +136,11 @@ export default {
     },
     isMobile() {
       const mobileResolution = 900;
-      return (this.$vuetify.breakpoint.smAndDown &&
-        'navigator' in window && navigator.maxTouchPoints > 0 &&
-        'screen' in window &&
-        (window.screen.height < mobileResolution ||
-          window.screen.width < mobileResolution)
+      return (this.$vuetify.breakpoint.smAndDown
+        && 'navigator' in window && navigator.maxTouchPoints > 0
+        && 'screen' in window
+        && (window.screen.height < mobileResolution
+          || window.screen.width < mobileResolution)
       );
     },
   },
@@ -178,22 +181,21 @@ export default {
         // The Cognito Identity Pool should be a resource in the identified region.
         if (this.$store.state && this.$store.state.config
           && this.$store.state.config.region && this.$store.state.config.cognito.poolId) {
-          const AWSConfigConstructor = (window.AWS && window.AWS.Config) ?
-            window.AWS.Config :
-            AWSConfig;
+          const AWSConfigConstructor = (window.AWS && window.AWS.Config)
+            ? window.AWS.Config
+            : AWSConfig;
 
-          const CognitoConstructor =
-            (window.AWS && window.AWS.CognitoIdentityCredentials) ?
-              window.AWS.CognitoIdentityCredentials :
-              CognitoIdentityCredentials;
+          const CognitoConstructor = (window.AWS && window.AWS.CognitoIdentityCredentials)
+            ? window.AWS.CognitoIdentityCredentials
+            : CognitoIdentityCredentials;
 
-          const LexRuntimeConstructor = (window.AWS && window.AWS.LexRuntime) ?
-            window.AWS.LexRuntime :
-            LexRuntime;
+          const LexRuntimeConstructor = (window.AWS && window.AWS.LexRuntime)
+            ? window.AWS.LexRuntime
+            : LexRuntime;
 
-          const LexRuntimeConstructorV2 = (window.AWS && window.AWS.LexRuntimeV2) ?
-            window.AWS.LexRuntimeV2 :
-            LexRuntimeV2;
+          const LexRuntimeConstructorV2 = (window.AWS && window.AWS.LexRuntimeV2)
+            ? window.AWS.LexRuntimeV2
+            : LexRuntimeV2;
 
           const credentials = new CognitoConstructor(
             { IdentityPoolId: this.$store.state.config.cognito.poolId },
@@ -223,12 +225,12 @@ export default {
         document.title = this.$store.state.config.ui.pageTitle;
       })
       .then(() => (
-        (this.$store.state.isRunningEmbedded) ?
-          this.$store.dispatch(
+        (this.$store.state.isRunningEmbedded)
+          ? this.$store.dispatch(
             'sendMessageToParentWindow',
             { event: 'ready' },
-          ) :
-          Promise.resolve()
+          )
+          : Promise.resolve()
       ))
       .then(() => {
         if (this.$store.state.config.ui.saveHistory === true) {
@@ -265,7 +267,7 @@ export default {
     }
     this.onResize();
     window.addEventListener('resize', this.onResize, { passive: true });
-    const { refreshWindowOnLinkClick } = this.$store.state.config.ui
+    const { refreshWindowOnLinkClick } = this.$store.state.config.ui;
     if (refreshWindowOnLinkClick && refreshWindowOnLinkClick.includes('.')) {
       window.addEventListener('click', this.onLinkClickHandler);
     }
@@ -312,6 +314,12 @@ export default {
     },
     toggleMinimizeUi() {
       return this.$store.dispatch('toggleIsUiMinimized');
+    },
+    MinimizeUi() {
+      return this.$store.dispatch('checkIsUiMinimized');
+    },
+    removeMinimizeUi() {
+      return this.$store.dispatch('removeIsUiMinimized');
     },
     loginConfirmed(evt) {
       this.$store.commit('setIsLoggedIn', true);
@@ -384,6 +392,18 @@ export default {
           break;
         case 'toggleMinimizeUi':
           this.$store.dispatch('toggleIsUiMinimized')
+            .then(() => evt.ports[0].postMessage({
+              event: 'resolve', type: evt.data.event,
+            }));
+          break;
+        case 'MinimizeUi':
+          this.$store.dispatch('checkIsUiMinimized')
+            .then(() => evt.ports[0].postMessage({
+              event: 'resolve', type: evt.data.event,
+            }));
+          break;
+        case 'removeMinimizeUi':
+          this.$store.dispatch('removeIsUiMinimized')
             .then(() => evt.ports[0].postMessage({
               event: 'resolve', type: evt.data.event,
             }));
@@ -518,9 +538,9 @@ export default {
       return this.$store.dispatch('initConfig', this.$lexWebUi.config)
         .then(() => this.$store.dispatch('getConfigFromParent'))
         // avoid merging an empty config
-        .then(config => (
-          (Object.keys(config).length) ?
-            this.$store.dispatch('initConfig', config) : Promise.resolve()
+        .then((config) => (
+          (Object.keys(config).length)
+            ? this.$store.dispatch('initConfig', config) : Promise.resolve()
         ))
         .then(() => {
           this.setFocusIfEnabled();

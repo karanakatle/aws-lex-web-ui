@@ -199,18 +199,18 @@ export default {
     },
     shouldDisplayResponseCard() {
       return (
-        this.message.responseCard &&
-        (this.message.responseCard.version === '1' ||
-         this.message.responseCard.version === 1) &&
-        this.message.responseCard.contentType === 'application/vnd.amazonaws.card.generic' &&
-        'genericAttachments' in this.message.responseCard &&
-        this.message.responseCard.genericAttachments instanceof Array
+        this.message.responseCard
+        && (this.message.responseCard.version === '1'
+         || this.message.responseCard.version === 1)
+        && this.message.responseCard.contentType === 'application/vnd.amazonaws.card.generic'
+        && 'genericAttachments' in this.message.responseCard
+        && this.message.responseCard.genericAttachments instanceof Array
       );
     },
     shouldShowAvatarImage() {
       return (
-        this.message.type === 'bot' &&
-        this.botAvatarUrl
+        this.message.type === 'bot'
+        && this.botAvatarUrl
       );
     },
     botAvatarBackground() {
@@ -279,9 +279,9 @@ export default {
       const secsInDay = secsInHr * 24;
       if (dateDiff < 60) {
         return 'Now';
-      } else if (dateDiff < secsInHr) {
+      } if (dateDiff < secsInHr) {
         return `${Math.floor(dateDiff / 60)} min ago`;
-      } else if (dateDiff < secsInDay) {
+      } if (dateDiff < secsInDay) {
         return this.message.date.toLocaleTimeString();
       }
       return this.message.date.toLocaleString();
@@ -289,8 +289,8 @@ export default {
   },
   created() {
     if (this.message.responseCard && 'genericAttachments' in this.message.responseCard) {
-      if (this.message.responseCard.genericAttachments[0].buttons &&
-          this.hideInputFields && !this.$store.state.hasButtons) {
+      if (this.message.responseCard.genericAttachments[0].buttons
+          && this.hideInputFields && !this.$store.state.hasButtons) {
         this.$store.dispatch('toggleHasButtons');
       }
     } else if (this.$store.state.config.ui.hideInputFieldsForButtonResponse) {

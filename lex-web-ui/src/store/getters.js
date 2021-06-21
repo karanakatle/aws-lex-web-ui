@@ -12,17 +12,17 @@ License for the specific language governing permissions and limitations under th
 */
 
 export default {
-  canInterruptBotPlayback: state => state.botAudio.canInterrupt,
-  isBotSpeaking: state => state.botAudio.isSpeaking,
-  isConversationGoing: state => state.recState.isConversationGoing,
-  isLexInterrupting: state => state.lex.isInterrupting,
-  isLexProcessing: state => state.lex.isProcessing,
-  isMicMuted: state => state.recState.isMicMuted,
-  isMicQuiet: state => state.recState.isMicQuiet,
-  isRecorderSupported: state => state.recState.isRecorderSupported,
-  isRecording: state => state.recState.isRecording,
-  isBackProcessing: state => state.isBackProcessing,
-  lastUtterance: state => () => {
+  canInterruptBotPlayback: (state) => state.botAudio.canInterrupt,
+  isBotSpeaking: (state) => state.botAudio.isSpeaking,
+  isConversationGoing: (state) => state.recState.isConversationGoing,
+  isLexInterrupting: (state) => state.lex.isInterrupting,
+  isLexProcessing: (state) => state.lex.isProcessing,
+  isMicMuted: (state) => state.recState.isMicMuted,
+  isMicQuiet: (state) => state.recState.isMicQuiet,
+  isRecorderSupported: (state) => state.recState.isRecorderSupported,
+  isRecording: (state) => state.recState.isRecording,
+  isBackProcessing: (state) => state.isBackProcessing,
+  lastUtterance: (state) => () => {
     if (state.utteranceStack.length === 0) return '';
     return state.utteranceStack[state.utteranceStack.length - 1].t;
   },

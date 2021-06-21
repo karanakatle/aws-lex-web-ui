@@ -84,12 +84,11 @@ const initRecorderHandlers = (context, recorder) => {
 
     context.dispatch('lexPostContent', audioBlob, offset)
       .then((lexAudioBlob) => {
-        if (context.state.recState.silentRecordingCount >=
-          context.state.config.converser.silentConsecutiveRecordingMax
+        if (context.state.recState.silentRecordingCount
+          >= context.state.config.converser.silentConsecutiveRecordingMax
         ) {
-          const errorMessage =
-            'Too many consecutive silent recordings: ' +
-            `${context.state.recState.silentRecordingCount}.`;
+          const errorMessage = 'Too many consecutive silent recordings: '
+            + `${context.state.recState.silentRecordingCount}.`;
           return Promise.reject(new Error(errorMessage));
         }
         return Promise.all([
@@ -99,8 +98,8 @@ const initRecorderHandlers = (context, recorder) => {
       })
       .then((audioUrls) => {
         // handle being interrupted by text
-        if (context.state.lex.dialogState !== 'Fulfilled' &&
-            !context.state.recState.isConversationGoing
+        if (context.state.lex.dialogState !== 'Fulfilled'
+            && !context.state.recState.isConversationGoing
         ) {
           return Promise.resolve();
         }
@@ -155,8 +154,8 @@ const initRecorderHandlers = (context, recorder) => {
         return Promise.resolve();
       })
       .catch((error) => {
-        const errorMessage = (context.state.config.ui.showErrorDetails) ?
-          ` ${error}` : '';
+        const errorMessage = (context.state.config.ui.showErrorDetails)
+          ? ` ${error}` : '';
         console.error('converser error:', error);
         context.dispatch('stopConversation');
         context.dispatch(

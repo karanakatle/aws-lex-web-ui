@@ -31,9 +31,13 @@ function compressAndB64Encode(src) {
 
 export default class {
   botV2Id;
+
   botV2AliasId;
+
   botV2LocaleId;
+
   isV2Bot;
+
   constructor({
     botName,
     botAlias = '$LATEST',
@@ -44,22 +48,22 @@ export default class {
     botV2LocaleId,
     lexRuntimeV2Client,
   }) {
-    if (!botName || !lexRuntimeClient || !lexRuntimeV2Client ||
-      typeof botV2Id === 'undefined' ||
-      typeof botV2AliasId === 'undefined' ||
-      typeof botV2LocaleId === 'undefined'
+    if (!botName || !lexRuntimeClient || !lexRuntimeV2Client
+      || typeof botV2Id === 'undefined'
+      || typeof botV2AliasId === 'undefined'
+      || typeof botV2LocaleId === 'undefined'
     ) {
-      console.error(`botName: ${botName} botV2Id: ${botV2Id} botV2AliasId ${botV2AliasId} ` +
-        `botV2LocaleId ${botV2LocaleId} lexRuntimeClient ${lexRuntimeClient} ` +
-        `lexRuntimeV2Client ${lexRuntimeV2Client}`);
+      console.error(`botName: ${botName} botV2Id: ${botV2Id} botV2AliasId ${botV2AliasId} `
+        + `botV2LocaleId ${botV2LocaleId} lexRuntimeClient ${lexRuntimeClient} `
+        + `lexRuntimeV2Client ${lexRuntimeV2Client}`);
       throw new Error('invalid lex client constructor arguments');
     }
 
     this.botName = botName;
     this.botAlias = botAlias;
-    this.userId = userId ||
-      'lex-web-ui-' +
-      `${Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)}`;
+    this.userId = userId
+      || 'lex-web-ui-'
+      + `${Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)}`;
 
     this.botV2Id = botV2Id;
     this.botV2AliasId = botV2AliasId;
@@ -72,9 +76,9 @@ export default class {
   initCredentials(credentials) {
     this.credentials = credentials;
     this.lexRuntimeClient.config.credentials = this.credentials;
-    this.userId = (credentials.identityId) ?
-      credentials.identityId :
-      this.userId;
+    this.userId = (credentials.identityId)
+      ? credentials.identityId
+      : this.userId;
   }
 
   deleteSession() {
@@ -94,7 +98,7 @@ export default class {
       });
     }
     return this.credentials.getPromise()
-      .then(creds => creds && this.initCredentials(creds))
+      .then((creds) => creds && this.initCredentials(creds))
       .then(() => deleteSessionReq.promise());
   }
 
@@ -123,7 +127,7 @@ export default class {
       });
     }
     return this.credentials.getPromise()
-      .then(creds => creds && this.initCredentials(creds))
+      .then((creds) => creds && this.initCredentials(creds))
       .then(() => putSessionReq.promise());
   }
 
@@ -150,7 +154,7 @@ export default class {
       });
     }
     return this.credentials.getPromise()
-      .then(creds => creds && this.initCredentials(creds))
+      .then((creds) => creds && this.initCredentials(creds))
       .then(async () => {
         const res = await postTextReq.promise();
         if (res.sessionState) { // this is v2 response
@@ -182,6 +186,7 @@ export default class {
         return res;
       });
   }
+
   postContent(
     blob,
     sessionAttributes = {},
@@ -194,9 +199,8 @@ export default class {
     if (mediaType.startsWith('audio/wav')) {
       contentType = 'audio/x-l16; sample-rate=16000; channel-count=1';
     } else if (mediaType.startsWith('audio/ogg')) {
-      contentType =
-      'audio/x-cbr-opus-with-preamble; bit-rate=32000;' +
-        ` frame-size-milliseconds=20; preamble-size=${offset}`;
+      contentType = 'audio/x-cbr-opus-with-preamble; bit-rate=32000;'
+        + ` frame-size-milliseconds=20; preamble-size=${offset}`;
     } else {
       console.warn('unknown media type in lex client');
     }
@@ -225,7 +229,7 @@ export default class {
       });
     }
     return this.credentials.getPromise()
-      .then(creds => creds && this.initCredentials(creds))
+      .then((creds) => creds && this.initCredentials(creds))
       .then(async () => {
         const res = await postContentReq.promise();
         if (res.sessionState) {

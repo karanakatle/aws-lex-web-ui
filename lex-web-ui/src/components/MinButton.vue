@@ -27,7 +27,7 @@
         <i class='fas fa-comments' style="padding-right: 8px">
         <!--  {{'chat'}} -->
         </i>
-        {{minButtonContent}}   
+        {{minButtonContent}}
       </v-btn>
       <!-- seperate button for button with text vs w/o -->
       <v-btn
@@ -101,6 +101,18 @@ export default {
       if (this.$store.state.isRunningEmbedded) {
         this.onInputButtonHoverLeave();
         this.$emit('toggleMinimizeUi');
+      }
+    },
+    checkMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('MinimizeUi');
+      }
+    },
+    removeMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('removeMinimizeUi');
       }
     },
   },

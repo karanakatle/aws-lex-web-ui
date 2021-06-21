@@ -76,9 +76,9 @@ export default {
     },
     isProcessing() {
       return (
-        this.isSpeechConversationGoing &&
-        !this.isRecording &&
-        !this.isBotSpeaking
+        this.isSpeechConversationGoing
+        && !this.isRecording
+        && !this.isBotSpeaking
       );
     },
     statusText() {
@@ -116,8 +116,8 @@ export default {
     },
     isInterrupting() {
       return (
-        this.$store.state.recState.isInterrupting ||
-        this.$store.state.botAudio.isInterrupting
+        this.$store.state.recState.isInterrupting
+        || this.$store.state.botAudio.isInterrupting
       );
     },
     isMicMuted() {

@@ -145,7 +145,7 @@ export default class {
     // when wav has finished encoding
     this._encoderWorker.addEventListener(
       'message',
-      evt => this._exportWav(evt.data),
+      (evt) => this._exportWav(evt.data),
     );
   }
 
@@ -165,25 +165,22 @@ export default class {
 
     this.recordingTimeMax = options.recordingTimeMax || 8;
     this.recordingTimeMin = options.recordingTimeMin || 2;
-    this.recordingTimeMinAutoIncrease =
-      (typeof options.recordingTimeMinAutoIncrease !== 'undefined') ?
-        !!options.recordingTimeMinAutoIncrease :
-        true;
+    this.recordingTimeMinAutoIncrease = (typeof options.recordingTimeMinAutoIncrease !== 'undefined')
+      ? !!options.recordingTimeMinAutoIncrease
+      : true;
 
     // speech detection configuration
-    this.autoStopRecording =
-      (typeof options.autoStopRecording !== 'undefined') ?
-        !!options.autoStopRecording :
-        true;
+    this.autoStopRecording = (typeof options.autoStopRecording !== 'undefined')
+      ? !!options.autoStopRecording
+      : true;
     this.quietThreshold = options.quietThreshold || 0.001;
     this.quietTimeMin = options.quietTimeMin || 0.4;
     this.volumeThreshold = options.volumeThreshold || -75;
 
     // band pass configuration
-    this.useBandPass =
-      (typeof options.useBandPass !== 'undefined') ?
-        !!options.useBandPass :
-        true;
+    this.useBandPass = (typeof options.useBandPass !== 'undefined')
+      ? !!options.useBandPass
+      : true;
     // https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode
     this.bandPassFrequency = options.bandPassFrequency || 4000;
     // Butterworth 0.707 [sqrt(1/2)]  | Chebyshev < 1.414
@@ -194,25 +191,21 @@ export default class {
     this.bufferLength = options.bufferLength || 2048;
     this.numChannels = options.numChannels || 1;
 
-    this.requestEchoCancellation =
-      (typeof options.requestEchoCancellation !== 'undefined') ?
-        !!options.requestEchoCancellation :
-        true;
+    this.requestEchoCancellation = (typeof options.requestEchoCancellation !== 'undefined')
+      ? !!options.requestEchoCancellation
+      : true;
 
     // automatic mute detection options
-    this.useAutoMuteDetect =
-      (typeof options.useAutoMuteDetect !== 'undefined') ?
-        !!options.useAutoMuteDetect :
-        true;
+    this.useAutoMuteDetect = (typeof options.useAutoMuteDetect !== 'undefined')
+      ? !!options.useAutoMuteDetect
+      : true;
     this.muteThreshold = options.muteThreshold || 1e-7;
 
     // encoder options
-    this.encoderUseTrim =
-      (typeof options.encoderUseTrim !== 'undefined') ?
-        !!options.encoderUseTrim :
-        true;
-    this.encoderQuietTrimThreshold =
-      options.encoderQuietTrimThreshold || 0.0008;
+    this.encoderUseTrim = (typeof options.encoderUseTrim !== 'undefined')
+      ? !!options.encoderUseTrim
+      : true;
+    this.encoderQuietTrimThreshold = options.encoderQuietTrimThreshold || 0.0008;
     this.encoderQuietTrimSlackBack = options.encoderQuietTrimSlackBack || 4000;
   }
 
@@ -269,8 +262,8 @@ export default class {
    * Start recording
    */
   async start() {
-    if (this._state !== 'inactive' ||
-      typeof this._stream === 'undefined') {
+    if (this._state !== 'inactive'
+      || typeof this._stream === 'undefined') {
       if (this._state !== 'inactive') {
         console.warn('invalid state to start recording');
         return;
@@ -385,8 +378,8 @@ export default class {
   _setIsMicQuiet() {
     const now = this._audioContext.currentTime;
 
-    const isMicQuiet = (this._maxVolume < this.volumeThreshold ||
-      this._slow < this.quietThreshold);
+    const isMicQuiet = (this._maxVolume < this.volumeThreshold
+      || this._slow < this.quietThreshold);
 
     // start record the time when the line goes quiet
     // fire event
@@ -403,21 +396,20 @@ export default class {
 
     // if autoincrease is enabled, exponentially increase the mimimun recording
     // time based on consecutive silent recordings
-    const recordingTimeMin =
-      (this.recordingTimeMinAutoIncrease) ?
-        (this.recordingTimeMin - 1) +
-        (this.recordingTimeMax **
-         (1 - (1 / (this._silentRecordingConsecutiveCount + 1)))) :
-        this.recordingTimeMin;
+    const recordingTimeMin = (this.recordingTimeMinAutoIncrease)
+      ? (this.recordingTimeMin - 1)
+        + (this.recordingTimeMax
+         ** (1 - (1 / (this._silentRecordingConsecutiveCount + 1))))
+      : this.recordingTimeMin;
 
     // detect voice pause and stop recording
-    if (this.autoStopRecording &&
-      this._isMicQuiet && this._state === 'recording' &&
+    if (this.autoStopRecording
+      && this._isMicQuiet && this._state === 'recording'
       // have I been recording longer than the minimum recording time?
-      now - this._recordingStartTime > recordingTimeMin &&
+      && now - this._recordingStartTime > recordingTimeMin
       // has the slow sample value been below the quiet threshold longer than
       // the minimum allowed quiet time?
-      now - this._quietStartTime > this.quietTimeMin
+      && now - this._quietStartTime > this.quietTimeMin
     ) {
       this.stop();
     }
@@ -628,33 +620,43 @@ export default class {
   set onstart(cb) {
     this._eventTarget.addEventListener('start', cb);
   }
+
   set onstop(cb) {
     this._eventTarget.addEventListener('stop', cb);
   }
+
   set ondataavailable(cb) {
     this._eventTarget.addEventListener('dataavailable', cb);
   }
+
   set onerror(cb) {
     this._eventTarget.addEventListener('error', cb);
   }
+
   set onstreamready(cb) {
     this._eventTarget.addEventListener('streamready', cb);
   }
+
   set onmute(cb) {
     this._eventTarget.addEventListener('mute', cb);
   }
+
   set onunmute(cb) {
     this._eventTarget.addEventListener('unmute', cb);
   }
+
   set onsilentrecording(cb) {
     this._eventTarget.addEventListener('silentrecording', cb);
   }
+
   set onunsilentrecording(cb) {
     this._eventTarget.addEventListener('unsilentrecording', cb);
   }
+
   set onquiet(cb) {
     this._eventTarget.addEventListener('quiet', cb);
   }
+
   set onunquiet(cb) {
     this._eventTarget.addEventListener('unquiet', cb);
   }

@@ -37,15 +37,15 @@ const envShortName = [
   'dev',
   'prod',
   'test',
-].find(env => process.env.NODE_ENV.startsWith(env));
+].find((env) => process.env.NODE_ENV.startsWith(env));
 
 if (!envShortName) {
   console.error('unknown environment in config: ', process.env.NODE_ENV);
 }
 
 // eslint-disable-next-line import/no-dynamic-require
-const configEnvFile = (process.env.BUILD_TARGET === 'lib') ?
-  {} : require(`./config.${envShortName}.json`);
+const configEnvFile = (process.env.BUILD_TARGET === 'lib')
+  ? {} : require(`./config.${envShortName}.json`);
 
 // default config used to provide a base structure for
 // environment and dynamic configs
@@ -72,8 +72,8 @@ const configDefault = {
     botAlias: '$LATEST',
 
     // instruction message shown in the UI
-    initialText: 'You can ask me for help ordering flowers. ' +
-      'Just type "order flowers" or click on the mic and say it.',
+    initialText: 'You can ask me for help ordering flowers. '
+      + 'Just type "order flowers" or click on the mic and say it.',
 
     // instructions spoken when mic is clicked
     initialSpeechInstruction: 'Say "Order Flowers" to get started',
@@ -309,7 +309,7 @@ function getUrlQueryParams(url) {
       // split params separated by '&'
       .reduce((params, queryString) => queryString.split('&'), [])
       // further split into key value pairs separated by '='
-      .map(params => params.split('='))
+      .map((params) => params.split('='))
       // turn into an object representing the URL query key/vals
       .reduce((queryObj, param) => {
         const [key, value = true] = param;
@@ -365,9 +365,9 @@ export function mergeConfig(baseConfig, srcConfig, deep = false) {
 
     // shallow merge key/values
     // overriding the base values with the ones from the source
-    return (typeof base[key] === 'object') ?
-      { ...base[key], ...src[key] } :
-      src[key];
+    return (typeof base[key] === 'object')
+      ? { ...base[key], ...src[key] }
+      : src[key];
   }
 
   // use the baseConfig first level keys as the base for merging

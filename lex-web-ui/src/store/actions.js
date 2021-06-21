@@ -67,8 +67,8 @@ export default {
       { event: 'initIframeConfig' },
     )
       .then((configResponse) => {
-        if (configResponse.event === 'resolve' &&
-            configResponse.type === 'initIframeConfig') {
+        if (configResponse.event === 'resolve'
+            && configResponse.type === 'initIframeConfig') {
           return Promise.resolve(configResponse.data);
         }
         return Promise.reject(new Error('invalid config event from parent'));
@@ -144,8 +144,8 @@ export default {
           console.warn('get user media permission denied');
           context.dispatch(
             'pushErrorMessage',
-            'It seems like the microphone access has been denied. ' +
-            'If you want to use voice, please allow mic usage in your browser.',
+            'It seems like the microphone access has been denied. '
+            + 'If you want to use voice, please allow mic usage in your browser.',
           );
         } else {
           console.error('error while initRecorder', error);
@@ -153,8 +153,8 @@ export default {
       });
   },
   initBotAudio(context, audioElement) {
-    if (!context.state.recState.isRecorderEnabled ||
-        !context.state.config.recorder.enable
+    if (!context.state.recState.isRecorderEnabled
+        || !context.state.config.recorder.enable
     ) {
       return Promise.resolve();
     }
@@ -229,8 +229,8 @@ export default {
       url = URL.createObjectURL(blob);
     } catch (err) {
       console.error('getAudioUrl createObjectURL error', err);
-      const errorMessage = 'There was an error processing the audio ' +
-        `response: (${err})`;
+      const errorMessage = 'There was an error processing the audio '
+        + `response: (${err})`;
       const error = new Error(errorMessage);
       return Promise.reject(error);
     }
@@ -307,10 +307,10 @@ export default {
     } = context.state.config.lex;
     const intervalTimeInMs = 200;
 
-    if (!enablePlaybackInterrupt &&
-        !isSpeaking &&
-        context.state.lex.isInterrupting &&
-        audio.duration < playbackInterruptMinDuration
+    if (!enablePlaybackInterrupt
+        && !isSpeaking
+        && context.state.lex.isInterrupting
+        && audio.duration < playbackInterruptMinDuration
     ) {
       return;
     }
@@ -320,22 +320,22 @@ export default {
       const end = audio.played.end(0);
       const { canInterrupt } = context.state.botAudio;
 
-      if (!canInterrupt &&
+      if (!canInterrupt
           // allow to be interrupt free in the beginning
-          end > playbackInterruptMinDuration &&
+          && end > playbackInterruptMinDuration
           // don't interrupt towards the end
-          (duration - end) > 0.5 &&
+          && (duration - end) > 0.5
           // only interrupt if the volume seems to be low noise
-          recorder.volume.max < playbackInterruptNoiseThreshold
+          && recorder.volume.max < playbackInterruptNoiseThreshold
       ) {
         context.commit('setCanInterruptBotPlayback', true);
       } else if (canInterrupt && (duration - end) < 0.5) {
         context.commit('setCanInterruptBotPlayback', false);
       }
 
-      if (canInterrupt &&
-          recorder.volume.max > playbackInterruptVolumeThreshold &&
-          recorder.volume.slow > playbackInterruptLevelThreshold
+      if (canInterrupt
+          && recorder.volume.max > playbackInterruptVolumeThreshold
+          && recorder.volume.slow > playbackInterruptLevelThreshold
       ) {
         clearInterval(intervalId);
         context.commit('setIsBotPlaybackInterrupting', true);
@@ -348,16 +348,16 @@ export default {
     context.commit('setBotPlaybackInterruptIntervalId', intervalId);
   },
   getAudioProperties() {
-    return (audio) ?
-      {
+    return (audio)
+      ? {
         currentTime: audio.currentTime,
         duration: audio.duration,
-        end: (audio.played.length >= 1) ?
-          audio.played.end(0) : audio.duration,
+        end: (audio.played.length >= 1)
+          ? audio.played.end(0) : audio.duration,
         ended: audio.ended,
         paused: audio.paused,
-      } :
-      {};
+      }
+      : {};
   },
 
   /***********************************************************************
@@ -420,12 +420,12 @@ export default {
   },
   pollySynthesizeSpeech(context, text, format = 'text') {
     return context.dispatch('pollyGetBlob', text, format)
-      .then(blob => context.dispatch('getAudioUrl', blob))
-      .then(audioUrl => context.dispatch('playAudio', audioUrl));
+      .then((blob) => context.dispatch('getAudioUrl', blob))
+      .then((audioUrl) => context.dispatch('playAudio', audioUrl));
   },
   interruptSpeechConversation(context) {
-    if (!context.state.recState.isConversationGoing &&
-        !context.state.botAudio.isSpeaking
+    if (!context.state.recState.isConversationGoing
+        && !context.state.botAudio.isSpeaking
     ) {
       return Promise.resolve();
     }
@@ -497,8 +497,8 @@ export default {
                 if (responseCardObject === undefined) { // prefer appContext over lex.responseCard
                   responseCardObject = context.state.lex.responseCard;
                 }
-                if ((mes.value && mes.value.length > 0) ||
-                  (mes.content && mes.content.length > 0)) {
+                if ((mes.value && mes.value.length > 0)
+                  || (mes.content && mes.content.length > 0)) {
                   context.dispatch(
                     'pushMessage',
                     {
@@ -556,19 +556,19 @@ export default {
       .catch((error) => {
         if (((error.message.indexOf('permissible time') === -1))
           || context.state.config.lex.retryOnLexPostTextTimeout === false
-          || (context.state.lex.isPostTextRetry &&
-            (context.state.lex.retryCountPostTextTimeout >=
-              context.state.config.lex.retryCountPostTextTimeout)
+          || (context.state.lex.isPostTextRetry
+            && (context.state.lex.retryCountPostTextTimeout
+              >= context.state.config.lex.retryCountPostTextTimeout)
           )
         ) {
           context.commit('setPostTextRetry', false);
-          const errorMessage = (context.state.config.ui.showErrorDetails) ?
-            ` ${error}` : '';
+          const errorMessage = (context.state.config.ui.showErrorDetails)
+            ? ` ${error}` : '';
           console.error('error in postTextMessage', error);
           context.dispatch(
             'pushErrorMessage',
-            'Sorry, I was unable to process your message. Try again later.' +
-            `${errorMessage}`,
+            'Sorry, I was unable to process your message. Try again later.'
+            + `${errorMessage}`,
           );
         } else {
           context.commit('setPostTextRetry', true);
@@ -654,7 +654,7 @@ export default {
           .then(() => (
             context.dispatch('processLexContentResponse', lexResponse)
           ))
-          .then(blob => Promise.resolve(blob));
+          .then((blob) => Promise.resolve(blob));
       })
       .catch((error) => {
         context.commit('setIsLexProcessing', false);
@@ -667,9 +667,9 @@ export default {
     return Promise.resolve()
       .then(() => {
         if (!audioStream || !audioStream.length) {
-          const text = (dialogState === 'ReadyForFulfillment') ?
-            'All done' :
-            'There was an error';
+          const text = (dialogState === 'ReadyForFulfillment')
+            ? 'All done'
+            : 'There was an error';
           return context.dispatch('pollyGetBlob', text);
         }
 
@@ -689,18 +689,16 @@ export default {
     };
     // simulate response card in sessionAttributes
     // used mainly for postContent which doesn't support response cards
-    if ('sessionAttributes' in lexState &&
-      'appContext' in lexState.sessionAttributes
+    if ('sessionAttributes' in lexState
+      && 'appContext' in lexState.sessionAttributes
     ) {
       try {
         const appContext = JSON.parse(lexState.sessionAttributes.appContext);
         if ('responseCard' in appContext) {
-          lexStateDefault.responseCard =
-            appContext.responseCard;
+          lexStateDefault.responseCard = appContext.responseCard;
         }
       } catch (e) {
-        const error =
-          new Error(`error parsing appContext in sessionAttributes: ${e}`);
+        const error = new Error(`error parsing appContext in sessionAttributes: ${e}`);
         return Promise.reject(error);
       }
     }
@@ -740,8 +738,8 @@ export default {
    **********************************************************************/
 
   getCredentialsFromParent(context) {
-    const expireTime = (awsCredentials && awsCredentials.expireTime) ?
-      awsCredentials.expireTime : 0;
+    const expireTime = (awsCredentials && awsCredentials.expireTime)
+      ? awsCredentials.expireTime : 0;
     const credsExpirationDate = new Date(expireTime).getTime();
     const now = Date.now();
     if (credsExpirationDate > now) {
@@ -749,8 +747,8 @@ export default {
     }
     return context.dispatch('sendMessageToParentWindow', { event: 'getCredentials' })
       .then((credsResponse) => {
-        if (credsResponse.event === 'resolve' &&
-            credsResponse.type === 'getCredentials') {
+        if (credsResponse.event === 'resolve'
+            && credsResponse.type === 'getCredentials') {
           return Promise.resolve(credsResponse.data);
         }
         const error = new Error('invalid credential event from parent');
@@ -789,8 +787,8 @@ export default {
   refreshAuthTokensFromParent(context) {
     return context.dispatch('sendMessageToParentWindow', { event: 'refreshAuthTokens' })
       .then((tokenResponse) => {
-        if (tokenResponse.event === 'resolve' &&
-          tokenResponse.type === 'refreshAuthTokens') {
+        if (tokenResponse.event === 'resolve'
+          && tokenResponse.type === 'refreshAuthTokens') {
           return Promise.resolve(tokenResponse.data);
         }
         if (context.state.isRunningEmbedded) {
@@ -892,8 +890,7 @@ export default {
         if (evt.data.event === 'resolve') {
           resolve(evt.data);
         } else {
-          const errorMessage =
-            `error in sendMessageToParentWindow: ${evt.data.error}`;
+          const errorMessage = `error in sendMessageToParentWindow: ${evt.data.error}`;
           reject(new Error(errorMessage));
         }
       };

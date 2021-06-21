@@ -18661,6 +18661,9 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
     linkIntent: function linkIntent() {
       return this.$store.state.config.ui.linkIntent;
     },
+    link: function link() {
+      return this.$store.state.config.ui.link;
+    },
     isLexProcessing: function isLexProcessing() {
       return this.$store.state.isBackProcessing || this.$store.state.lex.isProcessing;
     },
@@ -18669,6 +18672,11 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
     },
     lexState: function lexState() {
       return this.$store.state.lex;
+    },
+    elicitDialogState: function elicitDialogState() {
+      if (this.$store.state.lex.dialogState === 'Fulfilled') {
+        return this.$store.state.config.ui.disableFullfilledStatetextplaceholder;
+      }
     },
     isMobile: function isMobile() {
       var mobileResolution = 900;
@@ -18796,6 +18804,12 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
     toggleMinimizeUi: function toggleMinimizeUi() {
       return this.$store.dispatch('toggleIsUiMinimized');
     },
+    MinimizeUi: function MinimizeUi() {
+      return this.$store.dispatch('checkIsUiMinimized');
+    },
+    removeMinimizeUi: function removeMinimizeUi() {
+      return this.$store.dispatch('removeIsUiMinimized');
+    },
     loginConfirmed: function loginConfirmed(evt) {
       this.$store.commit('setIsLoggedIn', true);
 
@@ -18880,6 +18894,25 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
           });
           break;
 
+ 
+        case 'MinimizeUi':
+          this.$store.dispatch('checkIsUiMinimized').then(function () {
+            return evt.ports[0].postMessage({
+              event: 'resolve',
+              type: evt.data.event
+            });
+          });
+          break;
+  
+        case 'removeMinimizeUi':
+          this.$store.dispatch('removeIsUiMinimized').then(function () {
+            return evt.ports[0].postMessage({
+              event: 'resolve',
+              type: evt.data.event
+            });
+          });
+          break;
+           
         case 'postText':
           if (!evt.data.message) {
             evt.ports[0].postMessage({
@@ -19816,6 +19849,18 @@ License for the specific language governing permissions and limitations under th
         this.onInputButtonHoverLeave();
         this.$emit('toggleMinimizeUi');
       }
+    },
+    checkMinimize: function checkMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('MinimizeUi');
+      }
+    },
+    removeMinimize: function removeMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('removeMinimizeUi');
+      }
     }
   }
 });
@@ -20404,6 +20449,18 @@ License for the specific language governing permissions and limitations under th
         this.$emit('toggleMinimizeUi');
       }
     },
+    checkMinimize: function checkMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('MinimizeUi');
+      }
+    },
+    removeMinimize: function removeMinimize() {
+      if (this.$store.state.isRunningEmbedded) {
+        this.onInputButtonHoverLeave();
+        this.$emit('removeMinimizeUi');
+      }
+    },
     sendHelp: function sendHelp() {
       var message = {
         type: 'human',
@@ -20635,7 +20692,7 @@ var render = function() {
           "toolbar-color": _vm.toolbarColor,
           "is-ui-minimized": _vm.isUiMinimized
         },
-        on: { toggleMinimizeUi: _vm.toggleMinimizeUi }
+        on: { toggleMinimizeUi: _vm.removeMinimizeUi }
       }),
       !_vm.isUiMinimized
         ? _c("toolbar-container", {
@@ -20647,7 +20704,7 @@ var render = function() {
               "is-ui-minimized": _vm.isUiMinimized
             },
             on: {
-              toggleMinimizeUi: _vm.toggleMinimizeUi,
+              toggleMinimizeUi: _vm.MinimizeUi,
               requestLogin: _vm.handleRequestLogin,
               requestLogout: _vm.handleRequestLogout
             }
@@ -20671,7 +20728,7 @@ var render = function() {
             1
           )
         : _vm._e(),
-      !_vm.isUiMinimized && !_vm.hasButtons && !_vm.isLexProcessing
+      !_vm.isUiMinimized && !_vm.hasButtons && !_vm.isLexProcessing && !_vm.elicitDialogState
         ? _c("input-container", {
             ref: "InputContainer",
             attrs: {
@@ -20689,7 +20746,7 @@ var render = function() {
               staticClass:"help-link",
               attrs:{
                 disabled:_vm.isLexProcessing,
-                href: "https://dev1-app.dev.benefitscaldev.com/ApplyForBenefits/ABOVR",
+                href: _vm.link,
                 target:"_blank"}
               }), 
               [_vm._v(_vm._s(_vm.linkIntent))],
@@ -83304,6 +83361,8 @@ var configDefault = {
     helpIntent: '',
     // optional link at the bottom side of the chatbot when set to true (note need to change the margin of input field)
     linkIntent: '',
+    link: '',
+    disableFullfilledStatetextplaceholder: '',
     // shows a tooltip on min-max-toggle button
     minimizetooltip: 'minimize',
     // for instances when you only want to show error icons and feedback
@@ -85843,6 +85902,18 @@ var recorder;
       event: 'toggleMinimizeUi'
     });
   },
+  checkIsUiMinimized: function checkIsUiMinimized(context) {
+    context.commit('checkIsUiMinimized');
+    return context.dispatch('sendMessageToParentWindow', {
+      event: 'MinimizeUi'
+    });
+  },
+  removeIsUiMinimized: function removeIsUiMinimized(context) {
+    context.commit('removeIsUiMinimized');
+    return context.dispatch('sendMessageToParentWindow', {
+      event: 'removeMinimizeUi'
+    });
+  },
   toggleIsLoggedIn: function toggleIsLoggedIn(context) {
     context.commit('toggleIsLoggedIn');
     return context.dispatch('sendMessageToParentWindow', {
@@ -86418,6 +86489,12 @@ License for the specific language governing permissions and limitations under th
   * running embedded in an iframe
   */
   toggleIsUiMinimized: function toggleIsUiMinimized(state) {
+    state.isUiMinimized = !state.isUiMinimized;
+  },
+  checkIsUiMinimized: function checkIsUiMinimized(state) {
+    state.isUiMinimized = !state.isUiMinimized;
+  },
+  removeIsUiMinimized: function removeIsUiMinimized(state) {
     state.isUiMinimized = !state.isUiMinimized;
   },
   toggleIsSFXOn: function toggleIsSFXOn(state) {

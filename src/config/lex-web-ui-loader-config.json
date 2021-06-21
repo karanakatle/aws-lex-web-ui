@@ -1,15 +1,16 @@
 {
     "region": "us-west-2",
     "cognito": {
-      "poolId": "us-west-2:5ad87c5e-62bb-4c04-8a9b-db05554a2876",
+      "poolId": "us-west-2:4e10320d-ee4f-4113-be3f-9a1251fa330c",
       "aws_cognito_region": "us-west-2",
       "region": "us-west-2"
     },
     "lex": {
-      "botName": "RobinChatbot",
+      "botName": "WebUiOrderFlowers",
+      "botAlias": "test",
       "initialText": "",
       "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
-      "initialUtterance": "",
+      "initialUtterance": "spanish",
       "region": "us-west-2",
       "retryOnLexPostTextTimeout": false,
       "retryCountPostTextTimeout": 1,
@@ -28,7 +29,7 @@
       "shouldDisableClickedResponseCardButtons": true,
       "AllowSuperDangerousHTMLInMessage": true,
       "shouldDisplayResponseCardTitle": false,
-      "minButtonContent": "Do I Qualify?",
+      "minButtonContent": "Califico?",
       "hideInputFieldsForButtonResponse": true,
       "pushInitialTextOnRestart": false,
       "directFocusToBotInput": false,
@@ -37,11 +38,13 @@
       "messageMenu": false,
       "hideButtonMessageBubble": true,
       "saveHistory": false,
+      "disableFullfilledStatetextplaceholder": false,
       "textInputPlaceholder": "Type Here",
       "sendtooltip": "send",
       "minimizetooltip": "minimize",
-      "linkIntent": "Skip Screening and Apply Now",
-      "refreshWindowOnLinkClick": ""
+      "linkIntent": "រំលងចោល ហើយ​ដាក់​ស្នើពាក្យសុំនៅពេលនេះតែម្តង",
+      "refreshWindowOnLinkClick": "",
+      "link": "https://www.amazon.com"
     },
     "polly": {
       "voiceId": "Salli"

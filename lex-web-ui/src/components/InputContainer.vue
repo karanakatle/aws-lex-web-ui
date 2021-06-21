@@ -157,8 +157,8 @@ export default {
     },
     shouldShowSendButton() {
       return (
-        (this.textInput.length && this.isTextFieldFocused) ||
-        (!this.isRecorderSupported || !this.isRecorderEnabled)
+        (this.textInput.length && this.isTextFieldFocused)
+        || (!this.isRecorderSupported || !this.isRecorderEnabled)
       );
     },
     shouldShowTextInput() {
@@ -201,17 +201,17 @@ export default {
     },
     playInitialInstruction() {
       const isInitialState = ['', 'Fulfilled', 'Failed']
-        .some(initialState => (
+        .some((initialState) => (
           this.$store.state.lex.dialogState === initialState
         ));
 
-      return (this.$store.state.isLoggedIn && isInitialState &&
-        this.initialSpeechInstruction.length > 0) ?
-        this.$store.dispatch(
+      return (this.$store.state.isLoggedIn && isInitialState
+        && this.initialSpeechInstruction.length > 0)
+        ? this.$store.dispatch(
           'pollySynthesizeSpeech',
           this.initialSpeechInstruction,
-        ) :
-        Promise.resolve();
+        )
+        : Promise.resolve();
     },
     postTextMessage() {
       this.onInputButtonHoverLeave();
@@ -243,13 +243,13 @@ export default {
         .then(() => this.$store.dispatch('startConversation'))
         .catch((error) => {
           console.error('error in startSpeechConversation', error);
-          const errorMessage = (this.$store.state.config.ui.showErrorDetails) ?
-            ` ${error}` : '';
+          const errorMessage = (this.$store.state.config.ui.showErrorDetails)
+            ? ` ${error}` : '';
 
           this.$store.dispatch(
             'pushErrorMessage',
-            "Sorry, I couldn't start the conversation. Please try again." +
-            `${errorMessage}`,
+            "Sorry, I couldn't start the conversation. Please try again."
+            + `${errorMessage}`,
           );
         });
     },
