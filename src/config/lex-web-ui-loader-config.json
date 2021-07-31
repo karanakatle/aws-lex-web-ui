@@ -6,8 +6,8 @@
       "region": "us-west-2"
     },
     "lex": {
-      "botName": "WebUiOrderFlowers",
-      "botAlias": "test",
+      "botName": "RobinChatbot",
+      "botAlias": "locale",
       "initialText": "",
       "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
       "initialUtterance": "spanish",
@@ -43,7 +43,6 @@
       "sendtooltip": "send",
       "minimizetooltip": "minimize",
       "linkIntent": "រំលងចោល ហើយ​ដាក់​ស្នើពាក្យសុំនៅពេលនេះតែម្តង",
-      "refreshWindowOnLinkClick": "",
       "link": "https://www.amazon.com"
     },
     "polly": {

@@ -235,3 +235,9 @@ and (max-width: 320px) {
     width: -moz-fit-content;
     white-space: break-spaces;
   }
+
+@media print{
+    .noprint{
+        display:none;
+    }
+}
