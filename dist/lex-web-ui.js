@@ -20741,7 +20741,9 @@ var render = function() {
         ? _c("div", { attrs: { id: "sound", "aria-hidden": "true" } })
         : _vm._e(),
       !_vm.isUiMinimized
-        ? _c("a",
+        ? _c("nav",
+        { attrs: { id: "skip-to-apply-link", "aria-label": "Skip to Apply Now page" } },
+          [ _c("a",
             _vm._g({
               staticClass:"help-link",
               attrs:{
@@ -20750,7 +20752,9 @@ var render = function() {
                 target:"_blank"}
               }), 
               [_vm._v(_vm._s(_vm.linkIntent))],
-            1)
+        )
+      ],
+        1)
         : _vm._e()
     ],
     1

@@ -76415,7 +76415,7 @@ var FullPageComponentLoader = /*#__PURE__*/function () {
         try {
           var LexWebUiComponent = Vue.extend({
             store: lexWebUi.store,
-            template: '<div id="lex-web-ui" class="noprint"><lex-web-ui/></div>'
+            template: '<div id="lex-web-ui" class="noprint" aria-label="chatbot" role="dialog"><lex-web-ui/></div>'
           }); // mounts off-document
 
           var lexWebUiComponent = new LexWebUiComponent().$mount(); // replace existing element

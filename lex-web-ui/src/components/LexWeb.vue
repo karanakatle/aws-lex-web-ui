@@ -43,14 +43,19 @@
       id="sound"
       aria-hidden="true"
     />
-    <a
+    <nav
+      id="skip-to-apply-link"
+      aria-label="Skip to Apply Now page"
+    >
+      <a
       v-if="!isUiMinimized"
       v-bind:disabled="isLexProcessing"
       v-href="link"
-      target="_blank"
+      target="_parent"
       class="help-link"
     />
     {{linkIntent}}
+    </nav>
   </v-app>
 </template>
 
