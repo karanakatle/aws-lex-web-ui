@@ -29,7 +29,7 @@
       "shouldDisableClickedResponseCardButtons": true,
       "AllowSuperDangerousHTMLInMessage": true,
       "shouldDisplayResponseCardTitle": false,
-      "minButtonContent": "Califico?",
+      "minButtonContent": "Do I Qualify?",
       "hideInputFieldsForButtonResponse": true,
       "pushInitialTextOnRestart": false,
       "directFocusToBotInput": false,
@@ -42,7 +42,7 @@
       "textInputPlaceholder": "Type Here",
       "sendtooltip": "send",
       "minimizetooltip": "minimize",
-      "linkIntent": "រំលងចោល ហើយ​ដាក់​ស្នើពាក្យសុំនៅពេលនេះតែម្តង",
+      "linkIntent": "Skip and Apply Now",
       "link": "https://www.amazon.com"
     },
     "polly": {
