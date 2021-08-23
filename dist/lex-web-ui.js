@@ -18490,8 +18490,31 @@ License for the specific language governing permissions and limitations under th
       }).catch(function (error) {
         console.error('error in startSpeechConversation', error);
         var errorMessage = _this4.$store.state.config.ui.showErrorDetails ? " ".concat(error) : '';
-
-        _this4.$store.dispatch('pushErrorMessage', "Sorry, I couldn't start the conversation. Please try again." + "".concat(errorMessage));
+        if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='english') {
+          _this4.$store.dispatch('pushErrorMessage', "Sorry, I couldn't start the conversation. Please try again." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='spanish') {
+          _this4.$store.dispatch('pushErrorMessage', "Lo siento, no pude iniciar la conversación. Inténtalo de nuevo." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='chinese traditional') {
+          _this4.$store.dispatch('pushErrorMessage', "抱歉，我無法開始對話。 請再試一次。" + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='hmong') {
+          _this4.$store.dispatch('pushErrorMessage', "Thov txim, Kuv tsis tuaj yeem pib sib tham. Thov koj sim dua." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='armenian') {
+          _this4.$store.dispatch('pushErrorMessage', "Կներեք, ես չկարողացա սկսել զրույցը: Խնդրում եմ կրկին փորձեք." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='khmer') {
+          _this4.$store.dispatch('pushErrorMessage', "សូមទោសខ្ញុំមិនអាចចាប់ផ្តើមការសន្ទនាបានទេ។ សូម​ព្យាយាម​ម្តង​ទៀត។" + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='korean') {
+          _this4.$store.dispatch('pushErrorMessage', "죄송합니다. 대화를 시작할 수 없습니다. 다시 시도해 주세요." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='lao') {
+          _this4.$store.dispatch('pushErrorMessage', "ຂໍໂທດ, ຂ້ອຍບໍ່ສາມາດເລີ່ມການສົນທະນາໄດ້. ກະລຸນາລອງ ໃໝ່ ອີກຄັ້ງ." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='portugese') {
+          _this4.$store.dispatch('pushErrorMessage', "Não consegui iniciar a conversa. Por favor, tente novamente." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='russian') {
+          _this4.$store.dispatch('pushErrorMessage', "Извините, мне не удалось начать разговор. Пожалуйста, попробуйте еще раз." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='tagalog') {
+          _this4.$store.dispatch('pushErrorMessage', "Paumanhin, hindi ko nasimulan ang pag-uusap. Ulitin mo ulit." + "".concat(errorMessage));
+        } else if (_this4.$store.state.config.lex.initialUtterance && _this4.$store.state.config.lex.initialUtterance==='vietnamese') {
+          _this4.$store.dispatch('pushErrorMessage', "Xin lỗi, tôi không thể bắt đầu cuộc trò chuyện. Vui lòng thử lại." + "".concat(errorMessage));
+        }        
       });
     },
 
@@ -18894,7 +18917,6 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
           });
           break;
 
- 
         case 'MinimizeUi':
           this.$store.dispatch('checkIsUiMinimized').then(function () {
             return evt.ports[0].postMessage({
@@ -18903,7 +18925,7 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
             });
           });
           break;
-  
+    
         case 'removeMinimizeUi':
           this.$store.dispatch('removeIsUiMinimized').then(function () {
             return evt.ports[0].postMessage({
@@ -18912,7 +18934,7 @@ var jwt = __webpack_require__(/*! jsonwebtoken */ "./node_modules/jsonwebtoken/i
             });
           });
           break;
-           
+          
         case 'postText':
           if (!evt.data.message) {
             evt.ports[0].postMessage({
@@ -19636,7 +19658,7 @@ var marked = __webpack_require__(/*! marked */ "./node_modules/marked/lib/marked
 var renderer = new marked.Renderer();
 
 renderer.link = function link(href, title, text) {
-  return "<a href=\"".concat(href, "\" title=\"").concat(title, "\" target=\"_blank\">").concat(text, "</a>");
+  return "<a href=\"".concat(href, "\" title=\"").concat(title, "\" target=\"_parent\">").concat(text, "</a>");
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -19696,7 +19718,7 @@ renderer.link = function link(href, title, text) {
         regex: new RegExp('\\b((?:https?://\\w{1}|www\\.)(?:[\\w-.]){2,256}' + '(?:[\\w._~:/?#@!$&()*+,;=[\'\\]-]){0,256})', 'im'),
         replace: function replace(item) {
           var url = !/^https?:\/\//.test(item) ? "http://".concat(item) : item;
-          return '<a target="_blank" ' + "href=\"".concat(encodeURI(url), "\">").concat(_this.encodeAsHtml(item), "</a>");
+          return '<a target="_parent" ' + "href=\"".concat(encodeURI(url), "\">").concat(_this.encodeAsHtml(item), "</a>");
         }
       }]; // TODO avoid double HTML encoding when there's more than 1 linkReplacer
 
@@ -20365,7 +20387,7 @@ License for the specific language governing permissions and limitations under th
     toolbarClickHandler: function toolbarClickHandler() {
       if (this.isUiMinimized) {
         return {
-          click: this.toggleMinimize
+          click: this.removeMinimize
         };
       }
 
@@ -20692,7 +20714,7 @@ var render = function() {
           "toolbar-color": _vm.toolbarColor,
           "is-ui-minimized": _vm.isUiMinimized
         },
-        on: { toggleMinimizeUi: _vm.removeMinimizeUi }
+        on: { removeMinimizeUi: _vm.removeMinimizeUi }
       }),
       !_vm.isUiMinimized
         ? _c("toolbar-container", {
@@ -20704,7 +20726,7 @@ var render = function() {
               "is-ui-minimized": _vm.isUiMinimized
             },
             on: {
-              toggleMinimizeUi: _vm.MinimizeUi,
+              MinimizeUi: _vm.MinimizeUi,
               requestLogin: _vm.handleRequestLogin,
               requestLogout: _vm.handleRequestLogout
             }
@@ -21318,6 +21340,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "min-button min-button-content",
+                    class: "secondary-css-chatbot",
                     attrs: {
                       bottom: "",
                       dark: "",
@@ -21330,7 +21353,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.stopPropagation()
-                        return _vm.toggleMinimize($event)
+                        return _vm.removeMinimize($event)
                       }
                     }
                   },
@@ -21355,6 +21378,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "min-button",
+                    class: "secondary-css-chatbot",
                     attrs: {
                       bottom: "",
                       dark: "",
@@ -21368,7 +21392,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.stopPropagation()
-                        return _vm.toggleMinimize($event)
+                        return _vm.removeMinimize($event)
                       }
                     }
                   },
@@ -21579,7 +21603,7 @@ var render = function() {
                     flat: "",
                     tag: "a",
                     href: _vm.responseCard.attachmentLinkUrl,
-                    target: "_blank"
+                    target: "_parent"
                   }
                 },
                 [_vm._v(" Open Link ")]
@@ -21779,7 +21803,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.stopPropagation()
-                  return _vm.toggleMinimize($event)
+                  return _vm.checkMinimize($event)
                 }
               }
             },
@@ -21919,7 +21943,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.stopPropagation()
-                        return _vm.toggleMinimize($event)
+                        return _vm.checkMinimize($event)
                       }
                     }
                   },
@@ -85624,7 +85648,31 @@ var recorder;
         context.commit('setPostTextRetry', false);
         var errorMessage = context.state.config.ui.showErrorDetails ? " ".concat(error) : '';
         console.error('error in postTextMessage', error);
-        context.dispatch('pushErrorMessage', 'Sorry, I was unable to process your message. Try again later.' + "".concat(errorMessage));
+        if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='english') {
+          context.dispatch('pushErrorMessage', 'Sorry, I was unable to process your message. Try again later.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='spanish') {
+          context.dispatch('pushErrorMessage', 'Lo siento, no pude procesar tu mensaje. Vuelve a intentarlo más tarde.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='chinese traditional') {
+          context.dispatch('pushErrorMessage', '抱歉，我無法處理您的消息。 稍後再試。' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='hmong') {
+          context.dispatch('pushErrorMessage', 'Thov txim, Kuv tsis tuaj yeem ua koj cov lus. Rov sim ntxiv tom qab.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='armenian') {
+          context.dispatch('pushErrorMessage', 'Ներողություն, ես չկարողացա մշակել ձեր հաղորդագրությունը: Փորձեք ավելի ուշ:' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='khmer') {
+          context.dispatch('pushErrorMessage', 'សូមទោសខ្ញុំមិនអាចដំណើរការសាររបស់អ្នកបានទេ។ ព្យាយាម​ម្តង​ទៀត​នៅ​ពេលក្រោយ។' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='korean') {
+          context.dispatch('pushErrorMessage', '죄송합니다. 귀하의 메시지를 처리할 수 없습니다. 나중에 다시 시도하십시오.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='lao') {
+          context.dispatch('pushErrorMessage', 'ຂໍໂທດ, ຂ້ອຍບໍ່ສາມາດປະມວນຜົນຂໍ້ຄວາມຂອງເຈົ້າໄດ້. ລອງ ໃໝ່ ພາຍຫຼັງ.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='portugese') {
+          context.dispatch('pushErrorMessage', 'Não consegui processar sua mensagem. Tente mais tarde.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='russian') {
+          context.dispatch('pushErrorMessage', 'Извините, мне не удалось обработать ваше сообщение. Попробуйте позже.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='tagalog') {
+          context.dispatch('pushErrorMessage', 'Paumanhin, hindi ko naproseso ang iyong mensahe. Subukan ulit mamaya.' + "".concat(errorMessage));
+        } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='vietnamese') {
+          context.dispatch('pushErrorMessage', 'Xin lỗi, tôi không thể xử lý tin nhắn của bạn. Thử lại sau.' + "".concat(errorMessage));
+        }  
       } else {
         context.commit('setPostTextRetry', true);
         context.dispatch('postTextMessage', message);
@@ -86496,10 +86544,10 @@ License for the specific language governing permissions and limitations under th
     state.isUiMinimized = !state.isUiMinimized;
   },
   checkIsUiMinimized: function checkIsUiMinimized(state) {
-    state.isUiMinimized = !state.isUiMinimized;
+    state.isUiMinimized = true;
   },
   removeIsUiMinimized: function removeIsUiMinimized(state) {
-    state.isUiMinimized = !state.isUiMinimized;
+    state.isUiMinimized = false;
   },
   toggleIsSFXOn: function toggleIsSFXOn(state) {
     state.isSFXOn = !state.isSFXOn;
@@ -86835,7 +86883,31 @@ var initRecorderHandlers = function initRecorderHandlers(context, recorder) {
       var errorMessage = context.state.config.ui.showErrorDetails ? " ".concat(error) : '';
       console.error('converser error:', error);
       context.dispatch('stopConversation');
-      context.dispatch('pushErrorMessage', "Sorry, I had an error handling this conversation.".concat(errorMessage));
+      if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='english') {
+        context.dispatch('pushErrorMessage', "Sorry, I had an error handling this conversation.".concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='spanish') {
+        context.dispatch('pushErrorMessage', 'Lo siento, tuve un error al manejar esta conversación.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='chinese traditional') {
+        context.dispatch('pushErrorMessage', '抱歉，我在處理此對話時出錯。'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='hmong') {
+        context.dispatch('pushErrorMessage', 'Thov txim, Kuv muaj qhov yuam kev ua qhov kev sib tham no.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='armenian') {
+        context.dispatch('pushErrorMessage', 'Ներեցեք, ես սխալ եմ ունեցել այս զրույցը վարելիս:'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='khmer') {
+        context.dispatch('pushErrorMessage', 'សូមទោសខ្ញុំមានកំហុសក្នុងការដោះស្រាយការសន្ទនានេះ។'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='korean') {
+        context.dispatch('pushErrorMessage', '죄송합니다. 이 대화를 처리하는 중에 오류가 발생했습니다.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='lao') {
+        context.dispatch('pushErrorMessage', 'ຂໍໂທດ, ຂ້ອຍມີຂໍ້ຜິດພາດໃນການຈັດການສົນທະນານີ້.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='portugese') {
+        context.dispatch('pushErrorMessage', 'Desculpe, eu tive um erro ao lidar com esta conversa.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='russian') {
+        context.dispatch('pushErrorMessage', 'Извините, у меня произошла ошибка при обработке этого разговора.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='tagalog') {
+        context.dispatch('pushErrorMessage', 'Paumanhin, nagkaroon ako ng error sa paghawak sa pag-uusap na ito.'.concat(errorMessage));
+      } else if (context.state.config.lex.initialUtterance && context.state.config.lex.initialUtterance==='vietnamese') {
+        context.dispatch('pushErrorMessage', 'Xin lỗi, tôi đã gặp lỗi khi xử lý cuộc trò chuyện này.'.concat(errorMessage));
+      }              
       context.commit('resetSilentRecordingCount');
     });
   };

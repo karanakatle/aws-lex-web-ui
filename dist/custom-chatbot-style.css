@@ -14,9 +14,6 @@
     white-space: break-spaces;
   }
   
-/*.toolbar__content {
-    height: 66px !important;
-}*/
   /*.message-list-container {
     background-color: #dcdbdc !important
   }*/
@@ -102,6 +99,8 @@
   }
   
   button.min-button {
+      font-size: 20px;
+      font-weight: 700;
       border-radius: 60px;
       text-transform: none;
   }
@@ -118,65 +117,67 @@
       margin-bottom: 10px;
       border-radius: 5px;
   }
-
+  
   .theme--dark .toolbar, .application .theme--dark.toolbar {
       height: 66px;
   }
-
+  
   @media only screen
-and (min-width: 241px)
-and (max-width: 480px) {
+  and (min-width: 241px)
+  and (max-width: 480px) {
   /*.theme--dark .toolbar, .application .theme--dark.toolbar {
-    height: 80px;
-}*/
-.toolbar__title {
-    /*font-family:"Sans-serif" !important;*/
-    line-height: 20pt;
-    font-size: 1em;
-    color: #ffffff !important;
-    margin-top: 25px;
-    white-space: break-spaces;
+      height: 80px;
+  }*/
+  .toolbar__title {
+      /*font-family:"Sans-serif" !important;*/
+      line-height: 20pt;
+      font-size: 1em;
+      color: #ffffff !important;
+      margin-top: 25px;
+      white-space: break-spaces;
   }
   .toolbar .toolbar__content > .btn:last-child, .toolbar .toolbar__extension > .btn:last-child {
       margin-top:25px
   }
-}
-.toolbar__content > .btn:last-child, .toolbar__extension > .btn:last-child, .toolbar__content > .menu:first-child, .toolbar__extension > .menu:first-child {
-    margin-top: 25px;
-}
-
-@media only screen
-and (max-width: 280px) {
-.toolbar__title {
-    /*font-family:"Sans-serif" !important;*/
-    line-height: 15pt;
-    font-size: 0.9em;
-    color: #ffffff !important;
-    margin-top: 25px;
-    white-space: break-spaces;
   }
-
+  
+  .toolbar__content > .btn:last-child, .toolbar__extension > .btn:last-child, .toolbar__content > .menu:first-child, .toolbar__extension > .menu:first-child {
+      margin-top: 25px;
+  }
+  
+  @media only screen
+  and (max-width: 280px) {
+  .toolbar__title {
+      /*font-family:"Sans-serif" !important;*/
+      line-height: 15pt;
+      font-size: 0.9em;
+      color: #ffffff !important;
+      margin-top: 25px;
+      white-space: break-spaces;
+  }
+  
   .toolbar .toolbar__content > .btn:last-child, .toolbar .toolbar__extension > .btn:last-child {
       margin-top: 25px;
   }
-
+  
   .theme--dark .btn:not(.btn--icon):not(.btn--flat), .application .theme--dark.btn:not(.btn--icon):not(.btn--flat) {
-    height: 50px;
-    width: fit-content;
-    right: 0.05px;
-    line-height: 12pt;
+      height: auto;
+      width: 300px;
+      right: 0.05px;
+      line-height: 12pt;
   }
-
-}
-
-@media only screen
-and (max-width: 320px) {
-    .message-list-container.toolbar-height-md {
-        height: calc(100% - 160px) !important;
-    }
-}
+  
+  }
+  
+  @media only screen
+  and (max-width: 320px) {
+      .message-list-container.toolbar-height-md {
+          height: calc(100% - 160px) !important;
+      }
+  }
   
   a.help-link {
+      color: #005fcc !important;
       text-align: center;
       display: flex;
       cursor: pointer;
@@ -191,18 +192,18 @@ and (max-width: 320px) {
       height: calc(100% - 140px);
   
   }
-
+  
   .message-list-container.toolbar-height-sm {
-    top: 48px;
-    height: calc(100% - 140px);
-
-}
-
+      top: 48px;
+      height: calc(100% - 140px);
+  
+  }
+  
   .message-list-container.toolbar-height-lg {
-    top: 48px;
-    height: calc(100% - 140px);
-
-}
+      top: 48px;
+      height: calc(100% - 140px);
+  
+  }
   /*.fa, .fab, .fal, .far, .fas {
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
@@ -221,23 +222,27 @@ and (max-width: 320px) {
   .fas.fa-comments {
       font-size: 25px;
   }
-
+  
   .theme--dark .btn:not(.btn--icon):not(.btn--flat), .application .theme--dark.btn:not(.btn--icon):not(.btn--flat) {
-    height: 50px;
-    width: fit-content;
-    width: -moz-fit-content;
-    right: 0.05px;
+      height: auto;
+      width: fit-content;
+      max-width: 292px;
+      right: 0.05px;
   }
-
+  
   .btn__content {
-    justify-content: center;
-    width: fit-content;
-    width: -moz-fit-content;
-    white-space: break-spaces;
+      justify-content: center;
+      width: fit-content;
+      width: -moz-fit-content;
+      white-space: break-spaces;
   }
-
-@media print{
-    .noprint{
-        display:none;
-    }
-}
+  
+  @media print{
+      .noprint{
+          display:none;
+      }
+  }
+  
+  #lex-web > div.application--wrap > div:nth-child(4) > div > nav > div > button {
+      margin-bottom: 25px;
+  }
