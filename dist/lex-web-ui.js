@@ -19490,7 +19490,7 @@ License for the specific language governing permissions and limitations under th
 
     setTimeout(function () {
       _this.scrollDown();
-    }, 1000);
+    }, 100);
   },
   methods: {
     scrollDown: function scrollDown() {
@@ -19499,6 +19499,17 @@ License for the specific language governing permissions and limitations under th
       return this.$nextTick(function () {
         var lastMessageOffset = _this2.$el.lastElementChild ? _this2.$el.lastElementChild.getBoundingClientRect().height : 0;
         _this2.$el.scrollTop = _this2.$el.scrollHeight - lastMessageOffset;
+        if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
+        && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
+        var lastresponse0 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
+        var lastresponse1 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
+        if (lastresponse0 && lastresponse1) {
+          lastresponse0.removeAttribute('disabled');
+          lastresponse0.classList.remove("btn--disabled")
+          lastresponse1.removeAttribute('disabled');
+          lastresponse1.classList.remove("btn--disabled")
+        localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
+        }}
       });
     }
   }
@@ -19879,6 +19890,9 @@ License for the specific language governing permissions and limitations under th
       }
     },
     removeMinimize: function removeMinimize() {
+      if (!localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"))) {
+        window.localStorage.clear()
+      }
       if (this.$store.state.isRunningEmbedded) {
         this.onInputButtonHoverLeave();
         this.$emit('removeMinimizeUi');
@@ -20154,11 +20168,17 @@ License for the specific language governing permissions and limitations under th
       return this.$store.state.config.ui.shouldDisplayResponseCardTitle;
     },
     shouldDisableClickedResponseCardButtons: function shouldDisableClickedResponseCardButtons() {
-      return this.$store.state.config.ui.shouldDisableClickedResponseCardButtons && this.hasButtonBeenClicked;
-    }
+      if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
+      && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
+        return this.$store.state.config.ui.shouldDisableClickedResponseCardButtons && !this.hasButtonBeenClicked;}
+      else {
+        return this.$store.state.config.ui.shouldDisableClickedResponseCardButtons && this.hasButtonBeenClicked;
+      }
+    },
   },
   methods: {
     onButtonClick: function onButtonClick(value) {
+      localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"), 'true');
       this.hasButtonBeenClicked = true;
       var messageType = this.$store.state.config.ui.hideButtonMessageBubble ? 'button' : 'human';
       var message = {
@@ -20478,6 +20498,9 @@ License for the specific language governing permissions and limitations under th
       }
     },
     removeMinimize: function removeMinimize() {
+      if (!localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"))) {
+        window.localStorage.clear()
+      }
       if (this.$store.state.isRunningEmbedded) {
         this.onInputButtonHoverLeave();
         this.$emit('removeMinimizeUi');
@@ -21581,6 +21604,22 @@ var render = function() {
                   },
                   nativeOn: {
                     "~click": function($event) {
+                      if (localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) === 'true') {
+                        setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
+                        if (_vm.$store.state.hasButtons){
+                          var btnToBeDisabled1 = btn[btn.length-4]
+                          var btnToBeDisabled2 = btn[btn.length-3]
+                        }
+                        else {
+                          var btnToBeDisabled1 = btn[btn.length-2]
+                          var btnToBeDisabled2 = btn[btn.length-1]
+                        }
+                          btnToBeDisabled1.setAttribute('disabled','disabled');
+                          btnToBeDisabled1.classList.add("btn--disabled");
+                          btnToBeDisabled2.setAttribute('disabled','disabled');
+                          btnToBeDisabled2.classList.add("btn--disabled");
+                        },100)
+                      }
                       return _vm.onButtonClick(button.value)
                     }
                   }
@@ -21943,6 +21982,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.stopPropagation()
+                        localStorage.setItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId,"lastUiIsMinimized"),"true");
                         return _vm.checkMinimize($event)
                       }
                     }
@@ -85174,6 +85214,7 @@ var recorder;
     context.commit('mergeConfig', configObj);
   },
   sendInitialUtterance: function sendInitialUtterance(context) {
+    window.localStorage.clear()
     if (context.state.config.lex.initialUtterance) {
       var message = {
         type: context.state.config.ui.hideButtonMessageBubble ? 'button' : 'human',
@@ -86541,7 +86582,7 @@ License for the specific language governing permissions and limitations under th
   * running embedded in an iframe
   */
   toggleIsUiMinimized: function toggleIsUiMinimized(state) {
-    state.isUiMinimized = !state.isUiMinimized;
+    state.isUiMinimized = true;
   },
   checkIsUiMinimized: function checkIsUiMinimized(state) {
     state.isUiMinimized = true;

@@ -89910,29 +89910,6 @@
                       this.containerElement.classList.toggle(
                         "".concat(this.containerClass, "--minimize")
                       );
-
-                      if (
-                        this.containerElement.classList.contains(
-                          "".concat(this.containerClass, "--minimize")
-                        )
-                      ) {
-                        localStorage.setItem(
-                          "".concat(
-                            this.config.cognito.appUserPoolClientId,
-                            "lastUiIsMinimized"
-                          ),
-                          "true"
-                        );
-                      } else {
-                        localStorage.setItem(
-                          "".concat(
-                            this.config.cognito.appUserPoolClientId,
-                            "lastUiIsMinimized"
-                          ),
-                          "false"
-                        );
-                      }
-
                       return Promise.resolve();
                     } catch (err) {
                       return Promise.reject(
@@ -89951,29 +89928,6 @@
                       this.containerElement.classList.add(
                         "".concat(this.containerClass, "--minimize")
                       );
-
-                      if (
-                        this.containerElement.classList.contains(
-                          "".concat(this.containerClass, "--minimize")
-                        )
-                      ) {
-                        localStorage.setItem(
-                          "".concat(
-                            this.config.cognito.appUserPoolClientId,
-                            "lastUiIsMinimized"
-                          ),
-                          "true"
-                        );
-                      } else {
-                        localStorage.setItem(
-                          "".concat(
-                            this.config.cognito.appUserPoolClientId,
-                            "lastUiIsMinimized"
-                          ),
-                          "false"
-                        );
-                      }
-
                       return Promise.resolve();
                     } catch (err) {
                       return Promise.reject(
@@ -89997,13 +89951,6 @@
                         this.containerElement.classList.remove(
                           "".concat(this.containerClass, "--minimize")
                         );
-                        localStorage.setItem(
-                          "".concat(
-                            this.config.cognito.appUserPoolClientId,
-                            "lastUiIsMinimized"
-                          ),
-                          "false"
-                        );
                       }
                       return Promise.resolve();
                     } catch (err) {
@@ -90026,44 +89973,6 @@
                         // check for last state and resume with this configuration
                         if (_this11.config.iframe.shouldLoadIframeMinimized) {
                           _this11.api.MinimizeUi();
-
-                          localStorage.setItem(
-                            "".concat(
-                              _this11.config.cognito.appUserPoolClientId,
-                              "lastUiIsMinimized"
-                            ),
-                            "true"
-                          );
-                        } else if (
-                          localStorage.getItem(
-                            "".concat(
-                              _this11.config.cognito.appUserPoolClientId,
-                              "lastUiIsMinimized"
-                            )
-                          ) &&
-                          localStorage.getItem(
-                            "".concat(
-                              _this11.config.cognito.appUserPoolClientId,
-                              "lastUiIsMinimized"
-                            )
-                          ) === "true"
-                        ) {
-                          _this11.api.removeMinimizeUi();
-                        } else if (
-                          localStorage.getItem(
-                            "".concat(
-                              _this11.config.cognito.appUserPoolClientId,
-                              "lastUiIsMinimized"
-                            )
-                          ) &&
-                          localStorage.getItem(
-                            "".concat(
-                              _this11.config.cognito.appUserPoolClientId,
-                              "lastUiIsMinimized"
-                            )
-                          ) === "false"
-                        ) {
-                          _this11.api.ping();
                         }
                       }) // display UI
                       .then(function () {
