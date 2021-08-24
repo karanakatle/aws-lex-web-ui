@@ -56,7 +56,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.scrollDown();
-    }, 1000);
+    }, 100);
   },
   methods: {
     scrollDown() {
@@ -64,6 +64,17 @@ export default {
         const lastMessageOffset = (this.$el.lastElementChild)
           ? this.$el.lastElementChild.getBoundingClientRect().height : 0;
         this.$el.scrollTop = this.$el.scrollHeight - lastMessageOffset;
+        if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
+        && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
+        var lastresponse0 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
+        var lastresponse1 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
+        if (lastresponse0 && lastresponse1) {
+          lastresponse0.removeAttribute('disabled');
+          lastresponse0.classList.remove("btn--disabled");
+          lastresponse1.removeAttribute('disabled');
+          lastresponse1.classList.remove("btn--disabled");
+        localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
+        }}        
       });
     },
   },

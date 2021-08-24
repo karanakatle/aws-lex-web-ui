@@ -19505,9 +19505,9 @@ License for the specific language governing permissions and limitations under th
         var lastresponse1 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
         if (lastresponse0 && lastresponse1) {
           lastresponse0.removeAttribute('disabled');
-          lastresponse0.classList.remove("btn--disabled")
+          lastresponse0.classList.remove("btn--disabled");
           lastresponse1.removeAttribute('disabled');
-          lastresponse1.classList.remove("btn--disabled")
+          lastresponse1.classList.remove("btn--disabled");
         localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
         }}
       });

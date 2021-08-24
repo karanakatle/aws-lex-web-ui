@@ -78,6 +78,7 @@ export default {
     context.commit('mergeConfig', configObj);
   },
   sendInitialUtterance(context) {
+    window.localStorage.clear()
     if (context.state.config.lex.initialUtterance) {
       const message = {
         type: context.state.config.ui.hideButtonMessageBubble ? 'button' : 'human',

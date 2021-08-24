@@ -110,6 +110,9 @@ export default {
       }
     },
     removeMinimize() {
+      if (!localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"))) {
+        window.localStorage.clear()
+      }
       if (this.$store.state.isRunningEmbedded) {
         this.onInputButtonHoverLeave();
         this.$emit('removeMinimizeUi');

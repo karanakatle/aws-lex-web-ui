@@ -19,7 +19,22 @@
         v-for="(button) in responseCard.buttons"
         v-show="button.text && button.value"
         v-bind:key="button.id"
-        v-on:click.once.native="onButtonClick(button.value)"
+        v-on:click.once.native="if (localStorage.getItem(''.concat(_vm.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) && localStorage.getItem(''.concat(_vm.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) === 'true') {
+                        setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
+                        if (this.$store.state.hasButtons){
+                          var btnToBeDisabled1 = btn[btn.length-4]
+                          var btnToBeDisabled2 = btn[btn.length-3]
+                        }
+                        else {
+                          var btnToBeDisabled1 = btn[btn.length-2]
+                          var btnToBeDisabled2 = btn[btn.length-1]
+                        }
+                          btnToBeDisabled1.setAttribute('disabled','disabled');
+                          btnToBeDisabled1.classList.add('btn--disabled');
+                          btnToBeDisabled2.setAttribute('disabled','disabled');
+                          btnToBeDisabled2.classList.add('btn--disabled');
+                        },100)
+                      };onButtonClick(button.value)"
         v-bind:disabled="shouldDisableClickedResponseCardButtons"
         outline= true
         round
@@ -69,16 +84,18 @@ export default {
       return this.$store.state.config.ui.shouldDisplayResponseCardTitle;
     },
     shouldDisableClickedResponseCardButtons() {
-      return (
-        this.$store.state.config.ui.shouldDisableClickedResponseCardButtons
-        && this.hasButtonBeenClicked
-      );
+      if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
+      && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
+        return this.$store.state.config.ui.shouldDisableClickedResponseCardButtons && !this.hasButtonBeenClicked;}
+      else {
+        return this.$store.state.config.ui.shouldDisableClickedResponseCardButtons && this.hasButtonBeenClicked;
+      }
     },
   },
   methods: {
     onButtonClick(value) {
+      localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"), 'true');
       this.hasButtonBeenClicked = true;
-
       const messageType = this.$store.state.config.ui.hideButtonMessageBubble ? 'button' : 'human';
       const message = {
         type: messageType,

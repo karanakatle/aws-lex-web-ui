@@ -128,7 +128,7 @@
 
     <v-btn
       v-if="$store.state.isRunningEmbedded"
-      v-on:click.stop="toggleMinimize"
+      v-on:click.stop="localStorage.setItem(''.concat(_vm.$store.state.config.cognito.appUserPoolClientId,'lastUiIsMinimized'),'true');checkMinimize"
       v-on="tooltipEventHandlers"
       class="min-max-toggle"
       icon
@@ -295,6 +295,9 @@ export default {
       }
     },
     removeMinimize() {
+      if (!localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked"))) {
+        window.localStorage.clear()
+      }
       if (this.$store.state.isRunningEmbedded) {
         this.onInputButtonHoverLeave();
         this.$emit('removeMinimizeUi');
