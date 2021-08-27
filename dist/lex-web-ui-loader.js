@@ -88947,9 +88947,6 @@
                           containerEl = document.createElement("div");
                           containerEl.classList.add(_this2.containerClass);
                           containerEl.setAttribute("id", _this2.elementId);
-                          containerEl.setAttribute("role","dialog");
-                          containerEl.setAttribute("aria-label","BenefitsCal Chat");
-                          containerEl.setAttribute("title","BenefitsCal Chat");
                           document.body.appendChild(containerEl);
                         } catch (err) {
                           return reject(
@@ -89391,7 +89388,7 @@
                       iframeElement.setAttribute("src", url);
                       iframeElement.setAttribute("frameBorder", "0");
                       iframeElement.setAttribute("scrolling", "no");
-                      iframeElement.setAttribute("title", "chatbot"); // chrome requires this feature policy when using the
+                      iframeElement.setAttribute("title", "BenefitsCal Chat"); // chrome requires this feature policy when using the
                       // mic in an cross-origin iframe
 
                       iframeElement.setAttribute("allow", "microphone");
