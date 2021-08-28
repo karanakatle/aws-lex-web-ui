@@ -19,7 +19,9 @@
         v-for="(button) in responseCard.buttons"
         v-show="button.text && button.value"
         v-bind:key="button.id"
-        v-on:click.once.native="if (localStorage.getItem(''.concat(_vm.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) && localStorage.getItem(''.concat(_vm.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) === 'true') {
+        v-on:click.once.native="if ((localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) && localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) === 'true')
+                        || (localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'lastUiIsMinimized')) && localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'lastUiIsMinimized')) === 'true' && window.localStorage.length === 1)
+                        ) {
                         setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
                         if (this.$store.state.hasButtons){
                           var btnToBeDisabled1 = btn[btn.length-4]

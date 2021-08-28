@@ -21604,7 +21604,9 @@ var render = function() {
                   },
                   nativeOn: {
                     "~click": function($event) {
-                      if (localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) === 'true') {
+                      if ((localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) === 'true') 
+                      || (localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' && window.localStorage.length === 1)
+                      ) {
                         setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
                         if (_vm.$store.state.hasButtons){
                           var btnToBeDisabled1 = btn[btn.length-4]
