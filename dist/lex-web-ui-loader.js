@@ -89915,16 +89915,20 @@
                     }
                   },
                   /**
-                   * Shows the iframe
+                   * Miminizing the chatbot ui
                    */
                 },
                 {
                   key: "MinimizeUiClass",
                   value: function MinimizeUiClass() {
+                    var pageID = window.location.pathname.split("/").pop();
                     try {
-                      this.containerElement.classList.add(
-                        "".concat(this.containerClass, "--minimize")
-                      );
+                      if (pageID ==='') {
+                      this.containerElement.classList.add("".concat(this.containerClass, "--minimize"));}
+                      else {
+                        this.containerElement.classList.add("".concat(this.containerClass, "--minimize"));
+                        this.containerElement.classList.add("d-none");
+                      }
                       return Promise.resolve();
                     } catch (err) {
                       return Promise.reject(
@@ -89933,7 +89937,7 @@
                     }
                   },
                   /**
-                   * Shows the iframe
+                   * Expanding the chatbot ui
                    */
                 },
                 {
@@ -89941,10 +89945,15 @@
                   value: function removeMinimizeUiClass() {
                     try {
                       if (
-                        this.containerElement.classList.contains(
-                          "".concat(this.containerClass, "--minimize")
+                        this.containerElement.classList.contains("".concat(this.containerClass, "--minimize") && this.containerElement.classList.contains("d-none")
                         )
                       ) {
+                        this.containerElement.classList.remove("d-none")
+                        this.containerElement.classList.remove(
+                          "".concat(this.containerClass, "--minimize")
+                        );
+                      } else if (this.containerElement.classList.contains("".concat(this.containerClass, "--minimize")))
+                      {
                         this.containerElement.classList.remove(
                           "".concat(this.containerClass, "--minimize")
                         );

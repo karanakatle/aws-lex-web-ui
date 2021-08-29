@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.scrollDown();
+      window.onload=this.scrollDown();
     }, 100);
   },
   methods: {
@@ -66,8 +66,8 @@ export default {
         this.$el.scrollTop = this.$el.scrollHeight - lastMessageOffset;
         if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
         && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
-        var lastresponse0 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
-        var lastresponse1 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
+        var lastresponse0 = this.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
+        var lastresponse1 = this.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
         if (lastresponse0 && lastresponse1) {
           lastresponse0.removeAttribute('disabled');
           lastresponse0.classList.remove("btn--disabled");

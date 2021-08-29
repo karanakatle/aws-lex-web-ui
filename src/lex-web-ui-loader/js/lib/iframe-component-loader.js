@@ -746,11 +746,17 @@ export class IframeComponentLoader {
   }
 
   /**
-   * Toggle between miminizing and expanding the chatbot ui
+   * Miminizing the chatbot ui
    */
    MinimizeUiClass() {
+    var pageID = window.location.pathname.split("/").pop();
     try {
-      this.containerElement.classList.add(`${this.containerClass}--minimize`);
+      if (pageID ==='') {
+      this.containerElement.classList.add(`${this.containerClass}--minimize`);}
+      else {
+        this.containerElement.classList.add(`${this.containerClass}--minimize`);
+        this.containerElement.classList.add("d-none");
+    }
       return Promise.resolve();
     } catch (err) {
       return Promise.reject(new Error(`failed to toggle minimize UI ${err}`));
@@ -758,11 +764,15 @@ export class IframeComponentLoader {
   }
 
   /**
-   * Toggle between miminizing and expanding the chatbot ui
+   * Expanding the chatbot ui
    */
    removeMinimizeUiClass() {
     try {
-      if (this.containerElement.classList.contains(`${this.containerClass}--minimize`)) {
+      if (this.containerElement.classList.contains(`${this.containerClass}--minimize` && this.containerElement.classList.contains("d-none"))) {
+        this.containerElement.classList.remove("d-none");
+        this.containerElement.classList.remove(`${this.containerClass}--minimize`);
+      } else if (this.containerElement.classList.contains(`${this.containerClass}--minimize`))
+      {
         this.containerElement.classList.remove(`${this.containerClass}--minimize`);
       }
       return Promise.resolve();
