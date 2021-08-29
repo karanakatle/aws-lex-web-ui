@@ -19489,7 +19489,7 @@ License for the specific language governing permissions and limitations under th
     var _this = this;
 
     setTimeout(function () {
-      window.onload=_this.scrollDown();
+        _this.scrollDown();
     }, 100);
   },
   methods: {
