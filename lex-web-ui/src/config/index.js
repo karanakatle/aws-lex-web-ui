@@ -126,7 +126,7 @@ const configDefault = {
 
   ui: {
     // this dynamicall changes the pageTitle injected at build time
-    pageTitle: 'Order Flowers Bot',
+    pageTitle: 'BenefitsCal PreScreening ChatBot',
 
     // when running as an embedded iframe, this will be used as the
     // be the parent origin used to send/receive messages
@@ -148,6 +148,9 @@ const configDefault = {
 
     // chat window text placeholder
     textInputPlaceholder: 'Type here or click on the mic',
+
+    // shows a tooltip on an inputButton
+    sendtooltip: 'send',
 
     // text shown when you hover over the minimized bot button
     minButtonContent: '',
@@ -200,6 +203,13 @@ const configDefault = {
 
     // shows a help button on the toolbar when true
     helpIntent: '',
+
+    // optional link at the bottom side of the chatbot when set to true (note need to change the margin of input field)
+    linkIntent: '',
+    link: '',
+
+    // shows a tooltip on min-max-toggle button
+    minimizetooltip: 'minimize',
 
     // for instances when you only want to show error icons and feedback
     showErrorIcon: true,

@@ -86584,7 +86584,7 @@ License for the specific language governing permissions and limitations under th
   * running embedded in an iframe
   */
   toggleIsUiMinimized: function toggleIsUiMinimized(state) {
-    state.isUiMinimized = true;
+    state.isUiMinimized = !state.isUiMinimized;
   },
   checkIsUiMinimized: function checkIsUiMinimized(state) {
     state.isUiMinimized = true;

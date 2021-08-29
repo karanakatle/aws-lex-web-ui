@@ -320,6 +320,14 @@ export default {
     state.isUiMinimized = !state.isUiMinimized;
   },
 
+  checkIsUiMinimized(state) {
+    state.isUiMinimized = true;
+  },
+
+  removeIsUiMinimized(state) {
+    state.isUiMinimized = false;
+  },
+
   toggleIsSFXOn(state) {
     state.isSFXOn = !state.isSFXOn;
   },

@@ -217,7 +217,7 @@
         return Promise.resolve()
           .then(function () {
             // use the toggleMinimizeUi API if the iframe is minimized
-            return !isBotMinimized() || iframeLoader.api.toggleMinimizeUi();
+            return !isBotMinimized() || iframeLoader.api.removeMinimizeUi();
           })
           .then(function () {
             return iframeLoader.api.postText(utterance);

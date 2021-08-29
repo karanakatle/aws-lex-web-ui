@@ -1,43 +1,59 @@
 {
+  "region": "us-west-2",
   "cognito": {
-    "poolId": "us-east-1:b1e19043-d194-422a-adb4-2c3d1a90dd1f"
+    "poolId": "us-west-2:4e10320d-ee4f-4113-be3f-9a1251fa330c",
+    "aws_cognito_region": "us-west-2",
+    "region": "us-west-2"
   },
   "lex": {
-    "v2BotId": "XEFGXXWCHS",
-    "v2BotAliasId": "PRZOQOS9YU",
-    "v2BotLocaleId": "en_US",
-    "botName": "XEFGXXWCHS",
-    "botAlias": "$LATEST",
-    "initialText": "You can ask me for help ordering flowers. Just type \"order flowers\" or click on the mic and say it.",
-    "initialSpeechInstruction": "Say 'Order Flowers' to get started.",
-    "initialUtterance": "",
+    "botName": "RobinChatbot",
+    "botAlias": "locale",
+    "initialText": "",
+    "initialSpeechInstruction": "Say 'Hey Robin' to get started.",
+    "initialUtterance": "spanish",
+    "region": "us-west-2",
     "retryOnLexPostTextTimeout": false,
-    "retryCountPostTextTimeout": 1
+    "retryCountPostTextTimeout": 1,
+    "v2BotId": "",
+    "v2BotAliasId": "",
+    "v2BotLocaleId": ""
   },
   "polly": {
     "voiceId": "Salli"
   },
   "ui": {
-    "parentOrigin": "http://localhost:8080",
-    "pageTitle": "Order Config Bot",
-    "toolbarTitle": "Order Config",
-    "enableLogin": true,
-    "forceLogin": true,
-    "pushInitialTextOnRestart": false,
+    "parentOrigin": "http://localhost:8000",
+    "toolbarTitle": "Do I Qualify?",
+    "pageTitle": "BenefitsCal PreScreening ChatBot",
+    "toolbarLogo": "",
+    "positiveFeedbackIntent": "",
+    "negativeFeedbackIntent": "",
+    "enableLogin": false,
+    "forceLogin": false,
+    "shouldDisableClickedResponseCardButtons": true,
+    "AllowSuperDangerousHTMLInMessage": true,
     "shouldDisplayResponseCardTitle": false,
-    "showErrorIcon": true,
-    "showDialogStateIcon": false,
-    "positiveFeedbackIntent": "Thumbs up",
-    "negativeFeedbackIntent": "Thumbs down",
-    "helpIntent": "help",
+    "minButtonContent": "Do I Qualify?",
     "hideInputFieldsForButtonResponse": true,
+    "pushInitialTextOnRestart": false,
+    "directFocusToBotInput": false,
+    "showDialogStateIcon": false,
     "backButton": false,
-    "messageMenu": true
+    "messageMenu": false,
+    "hideButtonMessageBubble": true,
+    "saveHistory": false,
+    "disableFullfilledStatetextplaceholder": false,
+    "textInputPlaceholder": "Type Here",
+    "sendtooltip": "send",
+    "minimizetooltip": "minimize",
+    "linkIntent": "Skip and Apply Now",
+    "link": "https://www.amazon.com"
   },
   "recorder": {
+    "enable": "false",
     "preset": "speech_recognition"
   },
   "iframe": {
-    "shouldLoadIframeMinimized": false
+    "shouldLoadIframeMinimized": true
   }
 }

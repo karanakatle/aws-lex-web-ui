@@ -844,6 +844,20 @@ export default {
       { event: 'toggleMinimizeUi' },
     );
   },
+  checkIsUiMinimized(context) {
+    context.commit('checkIsUiMinimized');
+    return context.dispatch(
+      'sendMessageToParentWindow',
+      { event: 'MinimizeUi' },
+    );
+  },
+  removeIsUiMinimized(context) {
+    context.commit('removeIsUiMinimized');
+    return context.dispatch(
+      'sendMessageToParentWindow',
+      { event: 'removeMinimizeUi' },
+    );
+  },
   toggleIsLoggedIn(context) {
     context.commit('toggleIsLoggedIn');
     return context.dispatch(

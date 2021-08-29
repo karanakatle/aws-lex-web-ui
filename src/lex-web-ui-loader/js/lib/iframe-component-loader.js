@@ -596,6 +596,38 @@ export class IframeComponentLoader {
           });
       },
 
+      // sent when minimize button is pressed within the iframe component
+      MinimizeUi(evt) {
+        this.MinimizeUiClass()
+          .then(() => (
+            evt.ports[0].postMessage({ event: 'resolve', type: evt.data.event })
+          ))
+          .catch((error) => {
+            console.error('failed to MinimizeUi', error);
+            evt.ports[0].postMessage({
+              event: 'reject',
+              type: evt.data.event,
+              error: 'failed to MinimizeUi',
+            });
+          });
+      },
+
+      // sent when minimize button is pressed within the iframe component
+      removeMinimizeUi(evt) {
+        this.removeMinimizeUiClass()
+          .then(() => (
+            evt.ports[0].postMessage({ event: 'resolve', type: evt.data.event })
+          ))
+          .catch((error) => {
+            console.error('failed to removeMinimizeUi', error);
+            evt.ports[0].postMessage({
+              event: 'reject',
+              type: evt.data.event,
+              error: 'failed to removeMinimizeUi',
+            });
+          });
+      },
+
       // sent when login is requested from iframe
       requestLogin(evt) {
         evt.ports[0].postMessage({ event: 'resolve', type: evt.data.event });
@@ -694,7 +726,7 @@ export class IframeComponentLoader {
    */
   toggleShowUiClass() {
     try {
-      this.containerElement.classList.toggle(`${this.containerClass}--show`);
+      this.containerElement.classList.add(`${this.containerClass}--show`);
       return Promise.resolve();
     } catch (err) {
       return Promise.reject(new Error(`failed to toggle show UI ${err}`));
@@ -707,10 +739,31 @@ export class IframeComponentLoader {
   toggleMinimizeUiClass() {
     try {
       this.containerElement.classList.toggle(`${this.containerClass}--minimize`);
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(new Error(`failed to toggle minimize UI ${err}`));
+    }
+  }
+
+  /**
+   * Toggle between miminizing and expanding the chatbot ui
+   */
+   MinimizeUiClass() {
+    try {
+      this.containerElement.classList.add(`${this.containerClass}--minimize`);
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(new Error(`failed to toggle minimize UI ${err}`));
+    }
+  }
+
+  /**
+   * Toggle between miminizing and expanding the chatbot ui
+   */
+   removeMinimizeUiClass() {
+    try {
       if (this.containerElement.classList.contains(`${this.containerClass}--minimize`)) {
-        localStorage.setItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`, 'true');
-      } else {
-        localStorage.setItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`, 'false');
+        this.containerElement.classList.remove(`${this.containerClass}--minimize`);
       }
       return Promise.resolve();
     } catch (err) {
@@ -726,12 +779,7 @@ export class IframeComponentLoader {
       .then(() => {
         // check for last state and resume with this configuration
         if (this.config.iframe.shouldLoadIframeMinimized) {
-          this.api.toggleMinimizeUi();
-          localStorage.setItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`, 'true');
-        } else if (localStorage.getItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`) && localStorage.getItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`) === 'true') {
-          this.api.toggleMinimizeUi();
-        } else if (localStorage.getItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`) && localStorage.getItem(`${this.config.cognito.appUserPoolClientId}lastUiIsMinimized`) === 'false') {
-          this.api.ping();
+          this.api.MinimizeUi();
         }
       })
       // display UI
@@ -764,6 +812,12 @@ export class IframeComponentLoader {
       ),
       toggleMinimizeUi: () => (
         this.sendMessageToIframe({ event: 'toggleMinimizeUi' })
+      ),
+      MinimizeUi: () => (
+        this.sendMessageToIframe({ event: 'MinimizeUi' })
+      ),
+      removeMinimizeUi: () => (
+        this.sendMessageToIframe({ event: 'removeMinimizeUi' })
       ),
       postText: message => (
         this.sendMessageToIframe({ event: 'postText', message })

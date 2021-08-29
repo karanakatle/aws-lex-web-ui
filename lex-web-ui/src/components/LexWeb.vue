@@ -5,7 +5,7 @@
     <min-button
       v-bind:toolbar-color="toolbarColor"
       v-bind:is-ui-minimized="isUiMinimized"
-      v-on:toggleMinimizeUi="removeMinimizeUi"
+      v-on:removeMinimizeUi="removeMinimizeUi"
     ></min-button>
     <toolbar-container
       v-if="!isUiMinimized"
@@ -14,7 +14,7 @@
       v-bind:toolbar-color="toolbarColor"
       v-bind:toolbar-logo="toolbarLogo"
       v-bind:is-ui-minimized="isUiMinimized"
-      v-on:toggleMinimizeUi="MinimizeUi"
+      v-on:MinimizeUi="MinimizeUi"
       @requestLogin="handleRequestLogin"
       @requestLogout="handleRequestLogout"
     ></toolbar-container>

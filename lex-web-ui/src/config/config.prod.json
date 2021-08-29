@@ -1,21 +1,22 @@
 {
   "cognito": {
-    "poolId": ""
+    "poolId": "us-west-2:4e10320d-ee4f-4113-be3f-9a1251fa330c"
   },
   "lex": {
-    "botName": "WebUiOrderFlowers",
-    "initialText": "You can ask me for help ordering flowers. Just type \"order flowers\" or click on the mic and say it.",
-    "initialSpeechInstruction": "Say 'Order Flowers' to get started."
+    "botName": "RobinChatbot",
+    "initialText": "",
+    "initialSpeechInstruction": "Say 'Hey Robin' to get started."
   },
   "polly": {
     "voiceId": "Salli"
   },
   "ui": {
     "parentOrigin": "",
-    "pageTitle": "Order Flowers Bot",
-    "toolbarTitle": "Order Flowers"
+    "pageTitle": "BenefitsCal PreScreening ChatBot",
+    "toolbarTitle": "Do I Qualify?"
   },
   "recorder": {
+    "enable": "false",
     "preset": "speech_recognition"
   }
 }

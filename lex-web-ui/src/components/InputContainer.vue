@@ -145,7 +145,7 @@ export default {
     },
     inputButtonTooltip() {
       if (this.shouldShowSendButton) {
-        return 'send';
+        return this.$store.state.config.ui.sendtooltip;
       }
       if (this.isMicMuted) {
         return 'mic seems to be muted';

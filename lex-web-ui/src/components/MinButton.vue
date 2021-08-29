@@ -19,7 +19,7 @@
         v-if="minButtonContent"
         v-show="isUiMinimized"
         v-bind:color="toolbarColor"
-        v-on:click.stop="toggleMinimize"
+        v-on:click.stop="removeMinimize"
         v-on="tooltipEventHandlers"
         aria-label="show chat window"
         class="min-button min-button-content"
@@ -40,7 +40,7 @@
         v-else
         v-show="isUiMinimized"
         v-bind:color="toolbarColor"
-        v-on:click.stop="toggleMinimize"
+        v-on:click.stop="removeMinimize"
         v-on="tooltipEventHandlers"
         aria-label="show chat window"
         class="min-button"

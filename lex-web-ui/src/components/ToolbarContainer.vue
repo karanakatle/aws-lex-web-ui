@@ -66,7 +66,7 @@
 
     <v-toolbar-title
       class="hidden-xs-and-down"
-      v-on:click.stop="toggleMinimize"
+      v-on:click.stop="checkMinimize"
       v-show="!isUiMinimized"
     >
       <h1>{{ toolbarTitle }}</h1>
@@ -203,12 +203,15 @@ export default {
   computed: {
     toolbarClickHandler() {
       if (this.isUiMinimized) {
-        return { click: this.toggleMinimize };
+        return { click: this.removeMinimize };
       }
       return null;
     },
     toolTipMinimize() {
       return this.isUiMinimized ? 'maximize' : 'minimize';
+    },
+    minimizetooltip: function minimizetooltip() {
+      return this.$store.state.config.ui.minimizetooltip;
     },
     isEnableLogin() {
       return this.$store.state.config.ui.enableLogin;
