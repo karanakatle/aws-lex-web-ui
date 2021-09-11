@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      window.onload=this.scrollDown();
+      this.scrollDown();
     }, 100);
   },
   methods: {
@@ -64,17 +64,17 @@ export default {
         const lastMessageOffset = (this.$el.lastElementChild)
           ? this.$el.lastElementChild.getBoundingClientRect().height : 0;
         this.$el.scrollTop = this.$el.scrollHeight - lastMessageOffset;
+        var responseCards = this.$el.lastElementChild.getElementsByClassName('secondary--text');
         if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
         && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
-        var lastresponse0 = this.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
-        var lastresponse1 = this.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
-        if (lastresponse0 && lastresponse1) {
-          lastresponse0.removeAttribute('disabled');
-          lastresponse0.classList.remove("btn--disabled");
-          lastresponse1.removeAttribute('disabled');
-          lastresponse1.classList.remove("btn--disabled");
-        localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
-        }}        
+        if (responseCards.length!==0) {
+          for (let i = 0; i < responseCards.length; i++) {
+            responseCards[i].removeAttribute('disabled');
+            responseCards[i].classList.remove('btn--disabled');
+            localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
+          }
+        }
+      }        
       });
     },
   },

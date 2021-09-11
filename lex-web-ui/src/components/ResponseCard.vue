@@ -19,23 +19,19 @@
         v-for="(button) in responseCard.buttons"
         v-show="button.text && button.value"
         v-bind:key="button.id"
-        v-on:click.once.native="if ((localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) && localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) === 'true')
+        v-on:click.once.native="var botMessage = document.getElementsByClassName('message-bot');
+                      var botLastMessage = botMessage[botMessage.length-1];
+                      var responseButtons = botLastMessage.getElementsByClassName('secondary--text');
+                      if ((localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) && localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'disabledClassesRemoved')) === 'true')
                         || (localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'lastUiIsMinimized')) && localStorage.getItem(''.concat(this.$store.state.config.cognito.appUserPoolClientId, 'lastUiIsMinimized')) === 'true' && window.localStorage.length === 1)
                         ) {
-                        setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
-                        if (this.$store.state.hasButtons){
-                          var btnToBeDisabled1 = btn[btn.length-4]
-                          var btnToBeDisabled2 = btn[btn.length-3]
-                        }
-                        else {
-                          var btnToBeDisabled1 = btn[btn.length-2]
-                          var btnToBeDisabled2 = btn[btn.length-1]
-                        }
-                          btnToBeDisabled1.setAttribute('disabled','disabled');
-                          btnToBeDisabled1.classList.add('btn--disabled');
-                          btnToBeDisabled2.setAttribute('disabled','disabled');
-                          btnToBeDisabled2.classList.add('btn--disabled');
-                        },100)
+                        setTimeout(()=>{                        
+                          if (responseButtons.length!==0) {
+                          for (let i = 0; i < responseButtons.length; i++) {
+                            responseButtons[i].setAttribute('disabled','disabled');
+                            responseButtons[i].classList.add('btn--disabled');
+                          }
+                        }},0)
                       };onButtonClick(button.value)"
         v-bind:disabled="shouldDisableClickedResponseCardButtons"
         outline= true
