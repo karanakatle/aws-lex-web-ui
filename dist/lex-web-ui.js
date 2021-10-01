@@ -21371,7 +21371,7 @@ var render = function() {
                       fixed: "",
                       right: "",
                       color: _vm.toolbarColor,
-                      "aria-label": "show chat window"
+                      "aria-label": "Do I qualify show chat window"
                     },
                     on: {
                       click: function($event) {
@@ -21410,7 +21410,7 @@ var render = function() {
                       fixed: "",
                       right: "",
                       color: _vm.toolbarColor,
-                      "aria-label": "show chat window"
+                      "aria-label": "Do I qualify show chat window"
                     },
                     on: {
                       click: function($event) {

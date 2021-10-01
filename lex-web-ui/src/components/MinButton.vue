@@ -21,7 +21,7 @@
         v-bind:color="toolbarColor"
         v-on:click.stop="removeMinimize"
         v-on="tooltipEventHandlers"
-        aria-label="show chat window"
+        aria-label="Do I qualify show chat window"
         class="min-button min-button-content"
       >
         <i class='fas fa-comments' style="padding-right: 8px">
@@ -42,7 +42,7 @@
         v-bind:color="toolbarColor"
         v-on:click.stop="removeMinimize"
         v-on="tooltipEventHandlers"
-        aria-label="show chat window"
+        aria-label="Do I qualify show chat window"
         class="min-button"
       >
         <i class='fas fa-comments'>
