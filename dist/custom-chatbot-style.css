@@ -89,6 +89,10 @@
 .card__actions .btn:hover {
       background-color: #d5e9e9!important;
   }
+
+  .card__actions .btn:focus {
+    background-color: #d5e9e9!important;
+}
   
 .btn.btn--outline {
       background-color: #fff !important;
@@ -258,11 +262,23 @@ a.help-link {
     border: .125rem solid #fff!important;
     }
 
+.secondary-css-chatbot:focus{
+  background-color: #fff!important;
+  color: #ff5542!important;
+  border: .125rem solid #ff5542!important;
+      }
+
 button.min-max-toggle.btn.btn--icon:hover {
         background-color: #fff!important;
         color: #ff5542!important;
         border: .125rem solid #ff5542!important;
     }
+
+button.min-max-toggle.btn.btn--icon:focus {
+      background-color: #fff!important;
+      color: #ff5542!important;
+      border: .125rem solid #ff5542!important;
+  }
 
 button.min-max-toggle.btn.btn--icon:active{
         background-color: #990f00!important;
@@ -278,3 +294,7 @@ button.min-max-toggle.btn.btn--icon:active{
 button.icon-color.input-button.btn.btn--icon:hover{
        background-color: rgb(239, 239, 239)!important;
    }
+
+button.icon-color.input-button.btn.btn--icon:focus{
+    background-color: rgb(239, 239, 239)!important;
+}
