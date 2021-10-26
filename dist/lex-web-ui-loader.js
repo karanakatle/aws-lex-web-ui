@@ -27777,7 +27777,8 @@
               defer = function (id) {
                 html.appendChild(createElement("script"))[ONREADYSTATECHANGE] =
                   function () {
-                    html.removeChild(this);
+                    if (html?.contains(this)) {
+                    html.removeChild(this);}
                     run(id);
                   };
               };
@@ -82766,7 +82767,8 @@
                   script.onreadystatechange = function () {
                     runIfPresent(handle);
                     script.onreadystatechange = null;
-                    html.removeChild(script);
+                    if (html?.contains(script)) {
+                    html.removeChild(script);}
                     script = null;
                   };
                   html.appendChild(script);

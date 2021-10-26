@@ -19499,17 +19499,17 @@ License for the specific language governing permissions and limitations under th
       return this.$nextTick(function () {
         var lastMessageOffset = _this2.$el.lastElementChild ? _this2.$el.lastElementChild.getBoundingClientRect().height : 0;
         _this2.$el.scrollTop = _this2.$el.scrollHeight - lastMessageOffset;
-        var responseCards = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')
         if (localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' 
         && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) && localStorage.getItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "hasButtonBeenClicked")) === 'true') {
-        if (responseCards.length!==0) {
-          for (let i = 0; i < responseCards.length; i++) {
-            responseCards[i].removeAttribute('disabled');
-            responseCards[i].classList.remove("btn--disabled");
-            localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
-          }
-        }
-      }
+        var lastresponse0 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[0]
+        var lastresponse1 = _this2.$el.lastElementChild.getElementsByClassName('secondary--text')[1]
+        if (lastresponse0 && lastresponse1) {
+          lastresponse0.removeAttribute('disabled');
+          lastresponse0.classList.remove("btn--disabled");
+          lastresponse1.removeAttribute('disabled');
+          lastresponse1.classList.remove("btn--disabled");
+        localStorage.setItem("".concat(this.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved"),'true');
+        }}
       });
     }
   }
@@ -21604,19 +21604,23 @@ var render = function() {
                   },
                   nativeOn: {
                     "~click": function($event) {
-                      var botMessage = document.getElementsByClassName('message-bot');
-                      var botLastMessage = botMessage[botMessage.length-1];
-                      var responseButtons = botLastMessage.getElementsByClassName('secondary--text');
                       if ((localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "disabledClassesRemoved")) === 'true') 
                       || (localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) && localStorage.getItem("".concat(_vm.$store.state.config.cognito.appUserPoolClientId, "lastUiIsMinimized")) === 'true' && window.localStorage.length === 1)
                       ) {
-                        setTimeout(()=>{
-                        if (responseButtons.length!==0) {
-                          for (let i = 0; i < responseButtons.length; i++) {
-                            responseButtons[i].setAttribute('disabled','disabled');
-                            responseButtons[i].classList.add("btn--disabled");
-                          }
-                        }},0)
+                        setTimeout(()=>{const btn = document.getElementsByClassName('secondary--text')
+                        if (_vm.$store.state.hasButtons){
+                          var btnToBeDisabled1 = btn[btn.length-4]
+                          var btnToBeDisabled2 = btn[btn.length-3]
+                        }
+                        else {
+                          var btnToBeDisabled1 = btn[btn.length-2]
+                          var btnToBeDisabled2 = btn[btn.length-1]
+                        }
+                          btnToBeDisabled1.setAttribute('disabled','disabled');
+                          btnToBeDisabled1.classList.add("btn--disabled");
+                          btnToBeDisabled2.setAttribute('disabled','disabled');
+                          btnToBeDisabled2.classList.add("btn--disabled");
+                        },100)
                       }
                       return _vm.onButtonClick(button.value)
                     }
@@ -26379,7 +26383,8 @@ if (!set || !clear) {
   } else if (ONREADYSTATECHANGE in createElement('script')) {
     defer = function (id) {
       html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-        html.removeChild(this);
+      if (html?.contains(this)) {
+        html.removeChild(this);}
         run(id);
       };
     };
@@ -82064,7 +82069,8 @@ function addStyle (obj /* StyleObjectPart */) {
       // style tags - source maps in <style> only works if the style tag is
       // created and inserted dynamically. So we remove the server rendered
       // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
+      if (styleElement?.parentNode?.contains(styleElement)) {
+      styleElement.parentNode.removeChild(styleElement)}
     }
   }
 
@@ -82079,7 +82085,8 @@ function addStyle (obj /* StyleObjectPart */) {
     styleElement = createStyleElement()
     update = applyToTag.bind(null, styleElement)
     remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
+      if (styleElement?.parentNode?.contains(styleElement)) {
+      styleElement.parentNode.removeChild(styleElement)}
     }
   }
 
@@ -82116,7 +82123,9 @@ function applyToSingletonTag (styleElement, index, remove, obj) {
   } else {
     var cssNode = document.createTextNode(css)
     var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes[index]) {
+      if (styleElement?.contains(childNodes[index]))
+      {styleElement.removeChild(childNodes[index])}}
     if (childNodes.length) {
       styleElement.insertBefore(cssNode, childNodes[index])
     } else {
@@ -82149,7 +82158,8 @@ function applyToTag (styleElement, obj) {
     styleElement.styleSheet.cssText = css
   } else {
     while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
+      if (styleElement?.contains(styleElement.firstChild)) {
+      styleElement.removeChild(styleElement.firstChild)}
     }
     styleElement.appendChild(document.createTextNode(css))
   }
